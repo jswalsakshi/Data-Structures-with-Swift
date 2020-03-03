@@ -19,39 +19,42 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IBT-AD-dA8">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="byn-fd-Z22">
-                                        <rect key="frame" x="0.0" y="245" width="414" height="273"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="byn-fd-Z22">
+                                        <rect key="frame" x="0.0" y="311.5" width="414" height="273"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your name" textAlignment="center" minimumFontSize="17" id="3Z0-rY-4Sy">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="41.5"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your address" textAlignment="center" minimumFontSize="17" id="aDx-de-ygG">
-                                                <rect key="frame" x="0.0" y="57" width="414" height="45"/>
+                                                <rect key="frame" x="0.0" y="53.5" width="414" height="41.5"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your city" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tAB-xo-Z02">
-                                                <rect key="frame" x="0.0" y="114" width="414" height="45"/>
+                                                <rect key="frame" x="0.0" y="107" width="414" height="41.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your mobile" textAlignment="center" minimumFontSize="17" id="hyJ-xs-3DE">
-                                                <rect key="frame" x="0.0" y="171" width="414" height="45"/>
+                                                <rect key="frame" x="0.0" y="160.5" width="414" height="41.5"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kk5-Kr-cI4">
-                                                <rect key="frame" x="0.0" y="228" width="414" height="45"/>
+                                                <rect key="frame" x="0.0" y="214" width="414" height="59"/>
                                                 <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="27"/>
                                                 <state key="normal" title="SAVE">
                                                     <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                 </state>
+                                                <connections>
+                                                    <action selector="actionSaveData:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wRT-0S-Ilm"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -60,7 +63,7 @@
                                 <constraints>
                                     <constraint firstItem="byn-fd-Z22" firstAttribute="leading" secondItem="IBT-AD-dA8" secondAttribute="leading" id="ApV-FT-XZW"/>
                                     <constraint firstAttribute="trailing" secondItem="byn-fd-Z22" secondAttribute="trailing" id="a4t-GS-lT3"/>
-                                    <constraint firstItem="byn-fd-Z22" firstAttribute="top" secondItem="IBT-AD-dA8" secondAttribute="top" constant="245" id="qu0-sD-iax"/>
+                                    <constraint firstItem="byn-fd-Z22" firstAttribute="centerY" secondItem="IBT-AD-dA8" secondAttribute="centerY" id="x4d-5g-bKe"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -74,6 +77,9 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="txt_address" destination="aDx-de-ygG" id="M7g-Uu-Wfs"/>
+                        <outlet property="txt_city" destination="tAB-xo-Z02" id="tgo-rK-x6A"/>
+                        <outlet property="txt_mobile" destination="hyJ-xs-3DE" id="Jx8-zc-vpd"/>
                         <outlet property="txt_name" destination="3Z0-rY-4Sy" id="D8l-zh-amP"/>
                     </connections>
                 </viewController>

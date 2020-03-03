@@ -20,6 +20,8 @@ class ViewController: UIViewController {
     }
 
     @IBAction func actionSaveData(_ sender: Any) {
+        let dict = ["name": txt_name.text, "address": txt_address.text, "city": txt_city.text, "mobile": txt_mobile.text]
+        DataBaseHelper.shareInstance.save(object: dict as! [String : String])
     }
     
 }

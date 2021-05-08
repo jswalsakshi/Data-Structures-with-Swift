@@ -11,7 +11,7 @@ import Foundation
       return nums.count
     }
 
-var nums = [1,8,9,15]
+var nums = [1,1,1,8,8,15,15,15]
 
 removeDuplicates(&nums)
 
@@ -20,8 +20,8 @@ removeDuplicates(&nums)
 //Time Complexity is O(n)
 //Space Complexity is O(1)
 func removeDuplicatesFromSortedArray(_ nums: inout [Int]) -> Int {
-  guard nums.count != 0 else {
-    return 0
+  guard nums.count > 2 else {
+    return nums.count
   }
   
   var count: Int = 0

@@ -11,53 +11,34 @@ public class ListNode {
 
 class Solution {
   func mergeTwoListsIterative(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
+    if (l1 == nil) { return l2 }
+    if (l2 == nil) {return l1 }
     var list1 = l1
     var list2 = l2
-    var sortedList = ListNode()
-    var headNode = ListNode()
-    if (list1 == nil && list2 == nil) {
-      return nil
-    }
-    else if (list1 != nil && list2 == nil) {
-      return list1
-    }
-    else if (list1 == nil && list2 != nil) {
-      return list2
-    }
-    
-    if ((list1 != nil) && (list2 != nil)) {
-      
-      if (list1!.val < list2!.val) {
-        sortedList = list1!
-        list1 = sortedList.next
-      }
-      else {
-        sortedList = list2!
-        list2 = sortedList.next
-      }
-      
-      headNode = sortedList
-    }
+    var headNode: ListNode? = ListNode(0)
+    var sortedList: ListNode? = headNode
     
     while (list1 != nil) && (list2 != nil) {
       if list1!.val < list2!.val {
-        sortedList.next = list1
-        list1 = sortedList.next
+        sortedList?.next = list1
+        list1 = list1?.next
       }
       else {
-        sortedList.next = list2
-        list2 = sortedList.next
+        sortedList?.next = list2
+        list2 = list2?.next
       }
+      
+      sortedList = sortedList?.next
     }
     
     if list1 == nil {
-      sortedList.next = list2
+      sortedList?.next = list2
     }
     else if list2 == nil {
-      sortedList.next = list1
+      sortedList?.next = list1
     }
     
-    return headNode
+    return headNode?.next
   }
   
   func mergeTwoLists(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {

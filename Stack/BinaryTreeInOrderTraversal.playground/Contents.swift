@@ -20,30 +20,75 @@ class Solution {
       return []
     }
     
-    var resultList:[Int] = [Int]()
+    var inorderList:[Int] = [Int]()
     
-    traverseTheTree(root!, &resultList)
+    traverseTheTree(root!, &inorderList)
     
-    return resultList
+    return inorderList
   }
   
-  func traverseTheTree(_ node: TreeNode, _ resultList: inout[Int]) {
+  func traverseTheTree(_ node: TreeNode, _ inorderList: inout[Int]) {
     
     //traversing left node till end
     
     if let leftNode = node.left {
-      traverseTheTree(leftNode, &resultList)
+      traverseTheTree(leftNode, &inorderList)
     }
     
-    resultList.append(node.val)
+    inorderList.append(node.val)
     
     //traversing right node till end
     
     if let rightNode = node.right {
-      traverseTheTree(rightNode, &resultList)
+      traverseTheTree(rightNode, &inorderList)
     }
     
   }
+}
+
+class Solution2 {
+  func postorderTraversal(_ root: TreeNode?) -> [Int] {
+    
+    guard root != nil else {
+      return []
+    }
+    
+    var postOrderList:[Int] = [Int]()
+    
+    traverse(root!, &postOrderList)
+    
+    return postOrderList
+  }
+  
+  func traverse(_ node: TreeNode, _ postOrderList: inout[Int]) {
+    
+    if let leftNode = node.left {
+      traverse(leftNode, &postOrderList)
+    }
+    
+    if let rightNode = node.right {
+      traverse(rightNode, &postOrderList)
+    }
+    
+    postOrderList.append(node.val)
+  }
+  
+  
+  //another recursive method
+  
+  func postorderTraversal2(_ root: TreeNode?) -> [Int] {
+    guard let r = root else { return [] }
+
+    return postorderTraversal(r.left) + postorderTraversal(r.right) + [r.val]
+  }
+}
+
+class Solution3 {
+    func preorderTraversal(_ root: TreeNode?) -> [Int] {
+        guard let r = root else {return []}
+        
+        return [r.val] + preorderTraversal(r.right) + preorderTraversal(r.left)
+    }
 }
 
 

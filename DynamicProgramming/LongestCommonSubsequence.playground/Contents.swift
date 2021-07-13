@@ -1,9 +1,16 @@
 class Solution {
     func longestCommonSubsequence(_ text1: String, _ text2: String) -> Int {
+      
+      var dp = Array(repeating: Array(repeating: -1, count: text1.count + 1), count: text2.count + 1)
+      
         let text1Length = text1.count
         let text2Lenght = text2.count
         let char1 = Array(text1)
         let char2 = Array(text2)
+      
+      if dp[text1Length][text2Lenght] !=  -1 {
+        
+      }
         
         return lcs(char1, char2, text1Length, text2Lenght)
         

@@ -22,3 +22,50 @@
   }
 
 buildArray([1,2], 4)
+
+
+// min stack without extra space
+
+var stack: [Int] = [Int]()
+var sStack: [Int] = [Int]()
+
+func getMin() -> Int {
+    
+    if (sStack.isEmpty) {
+        return -1
+    } else {
+        return sStack.last!
+    }
+    
+}
+
+
+
+func push(element: Int) {
+    stack.append(element)
+    
+    if(sStack.isEmpty) || (sStack.last! >= element) {
+        sStack.append(element)
+        return
+    }
+}
+
+func pop() -> Int {
+    if(sStack.isEmpty) {
+        return -1
+    }
+    
+    let ans = stack.last!
+    stack.removeLast()
+    
+    if(sStack.last! == ans) {
+        sStack.removeLast()
+    }
+    
+    return ans
+}
+
+
+let arr = [18, 19, 29, 15, 16]
+
+

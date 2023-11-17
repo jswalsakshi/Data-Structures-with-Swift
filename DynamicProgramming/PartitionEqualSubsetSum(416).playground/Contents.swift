@@ -160,3 +160,37 @@ func totalSubset2(_ arr: [Int], sum: Int) -> Int {
 }
 print(totalSubset2(arr2, sum: 10))
 
+
+// unbounded knapsack
+
+func rodCutting(_ length: [Int], _ price: [Int], N: Int) -> Int {
+    
+    var t = Array(repeating: Array(repeating: 0, count: N + 1), count: length.count + 1)
+    
+    for i in 0...length.count {
+        for j in 0...N {
+            if j == 0 {
+                t[i][0] = 0
+            } else if i == 0 {
+                t[0][j] = 0
+            }
+        }
+    }
+    
+    for i in 1...length.count {
+        for j in 1...N {
+            if length[i - 1] <= j {
+                t[i][j] = max((price[i-1] + (t[i][j - length[i - 1]])), t[i - 1][j])
+            } else {
+                t[i][j] = t[i - 1][j]
+            }
+        }
+    }
+    return t[length.count][N]
+}
+
+let length = [1, 2, 3, 4, 5, 6, 7, 8]
+let price = [1, 5, 8, 9, 10, 17, 17, 20]
+let n = 8
+
+print(rodCutting(length, price, N: n))

@@ -56,6 +56,8 @@ func longestCommonSubseq(_ text1: String, _ text2: String) -> Int {
 
 private func solveLCS(_ char1: [Character], _ char2: [Character], m: Int, n: Int, dp: inout [[Int]]) -> Int {
     
+    var lcsStrg: [Character] = []
+    
     if (m == 0 || n == 0) {
         return 0
     }
@@ -65,13 +67,54 @@ private func solveLCS(_ char1: [Character], _ char2: [Character], m: Int, n: Int
     }
     
     if char1[m-1] == char2[n-1] {
+        lcsStrg.append(char1[m - 1])
         dp[m][n] = 1 + solveLCS(char1, char2, m: m-1, n: n-1, dp: &dp)
     } else {
         dp[m][n] = max(solveLCS(char1, char2, m: m-1, n: n, dp: &dp), 
                        solveLCS(char1, char2, m: m, n: n-1, dp: &dp))
     }
     
+    print(lcsStrg)
     return dp[m][n]
     
 }
 longestCommonSubseq(x, y)
+
+
+//func longestCommonSubstring(str1: String, str2: String) -> Int {
+//    var dp = Array(repeating: Array(repeating: 0, count: str2.count + 1), count: str1.count + 1)
+//    var maximum = 0
+//    
+//    let arrStr1 = Array(<#T##s: Sequence##Sequence#>)
+//
+//    for i in 1...str1.count {
+//        for j in 1...str2.count {
+//            if str1[i - 1] == str2[j - 1] {
+//                dp[i][j] = 1 + (i > 1 && j > 1 ? dp[i - 1][j - 1] : 0)
+//                maximum = max(maximum, dp[i][j])
+//            } else {
+//                dp[i][j] = 0
+//            }
+//        }
+//    }
+//
+//    return maximum
+//}
+//
+//let e = "abcde"
+//let f = "abfce"
+//
+//print(longestCommonSubstring(str1: e, str2: f))
+
+let n = [1, 3, 4, -1]
+
+
+func firstMissingPositive(_ n: [Int]) -> Int {
+    let set = Set(n)
+    for i in 0..<n.count where !set.contains(i + 1) {
+        return i + 1
+    }
+    return n.count + 1
+}
+
+firstMissingPositive(n)

@@ -33,10 +33,25 @@ func minNumOfPartition(s: String, i: Int, j: Int) -> Int {
     
     var tempAns: Int
     var mn = Int.max
+    var dp = Array(repeating: Array(repeating: -1, count: s.count + 1), count: s.count + 1)
     
     for k in i...j {
-        tempAns = (minNumOfPartition(s: s, i: i, j: k) +
-                  minNumOfPartition(s: s, i: k+1, j: j) + 1)
+        var left: Int
+        var right: Int
+        
+        if (dp[i][k] != -1) {
+            left = dp[i][k]
+        } else {
+            left = minNumOfPartition(s: s, i: i, j: k)
+        }
+        
+        if (dp[k+1][j] != -1) {
+            right = dp[k+1][j]
+        } else {
+            right = minNumOfPartition(s: s, i: k+1, j: j)
+        }
+        
+        tempAns = (left + right + 1)
         
         if tempAns < mn {
             mn = tempAns

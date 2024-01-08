@@ -68,27 +68,61 @@ let val = 2
 
 print(removeElement(&num1, val))
 
-func removeDuplicates(_ nums: inout [Int]) -> Int {
+func majorityElement(_ nums: [Int]) -> Int? {
     
-    if nums.count == 1 {
-        return 1
-    }
+    let majority = Int(ceil(Double(nums.count) / 2))
+    var mp = [Int: Int]()
+    var mx = 0
+    var majorityElement: Int?
     
-    var count = 0
-    var indexToPlace = 1
-    
-    for i in 1..<nums.count {
-        if nums[i] != nums[count] {
-           nums[indexToPlace] = nums[i]
-            count = count + 1
-            indexToPlace = indexToPlace + 1
+    for i in 0..<nums.count {
+        if let count = mp[nums[i]] {
+            mp[nums[i]] = count + 1
         } else {
-            count = count + 2
-            if nums[i] == nums[count] {
-                indexToPlace = indexToPlace + 1
-            }
+            mp[nums[i]] = 1
+        }
+        
+        if let currentCount = mp[nums[i]], currentCount > mx {
+            mx = currentCount
+            majorityElement = nums[i]
         }
     }
     
+    if let majorityElement = majorityElement, mx >= majority {
+        return majorityElement
+    } else {
+        return 1 // or any other appropriate value indicating no majority element
+    }
 }
+
+let arr = [2, 2, 1, 1, 1, 2, 2]
+
+if let result = majorityElement(arr) {
+    print(result)
+} else {
+    print("No majority element")
+    
+}
+
+
+func majorityElement1(_ nums: [Int]) -> Int {
+    var candidate: Int?
+    var count = 0
+    
+    for num in nums {
+        if count == 0 {
+            candidate = num
+        }
+        
+        count += (num == candidate) ? 1 : -1
+    }
+    
+    // Verify if the candidate is a majority element
+    let majorityCount = nums.reduce(0) { $1 == candidate ? $0 + 1 : $0 }
+    
+    return majorityCount > nums.count / 2 ? candidate! : -1
+}
+
+
+print(majorityElement1(arr))
 

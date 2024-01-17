@@ -126,3 +126,60 @@ func majorityElement1(_ nums: [Int]) -> Int {
 
 print(majorityElement1(arr))
 
+func rotate(_ nums: inout [Int], _ k: Int) {
+    let n = nums.count
+    let k = k % n // To handle cases where k is greater than the length of the array
+    
+    reverse(&nums, start: 0, end: n - 1)
+    reverse(&nums, start: 0, end: k - 1)
+    reverse(&nums, start: k, end: n - 1)
+}
+
+func reverse(_ nums: inout [Int], start: Int, end: Int) {
+    var i = start
+    var j = end
+    
+    while i < j {
+        nums.swapAt(i, j)
+        i += 1
+        j -= 1
+    }
+}
+
+var ip1 = [1,2,3,4,5,6,7]
+let k = 3
+
+print(rotate(&ip1, k))
+
+func maxProfit(_ prices: [Int]) -> Int {
+    var maxProfit = Int.min
+    var minPriceToBuy = Int.max
+    
+    for i in 0..<prices.count {
+        if prices[i] < minPriceToBuy {
+            minPriceToBuy = prices[i]
+        }
+        
+        if maxProfit < prices[i] - minPriceToBuy {
+            maxProfit = prices[i] - minPriceToBuy
+        }
+    }
+    
+    return maxProfit
+}
+
+let prices = [7,1,5,3,6,4]
+
+print(maxProfit(prices))
+
+func findKthLargest(_ nums: [Int], _ k: Int) -> Int {
+    
+    guard k > 0 && k <= nums.count else {
+        return -1
+    }
+    
+    var minHeap = PriorityQueue<Int>(ascending: true, startingValues: nums.prefix(k))
+
+    
+}
+

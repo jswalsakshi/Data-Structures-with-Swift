@@ -2,14 +2,14 @@ import Foundation
 
 let arr = [100, 80, 60, 70, 60, 75, 85]
 
-// for anyday, number of stock price which are smaller
+// 1. for anyday, number of stock price which are smaller
 
 func stockSpan(arr: [Int]) -> [Int] {
-
+    
     var stack: [(Int, Int)] = [(Int, Int)]()
     var output: [Int] = [Int]()
     var result = [Int](repeating: 0, count: arr.count)
-
+    
     for i in 0..<arr.count {
         if stack.isEmpty {
             output.append(-1)
@@ -24,41 +24,42 @@ func stockSpan(arr: [Int]) -> [Int] {
             } else {
                 output.append(stack.last!.1)
             }
-
+            
         }
         stack.append((arr[i], i))
     }
-
+    
     for i in 0..<arr.count {
         result[i] = i - output[i]
     }
-
+    
     return result
 }
 
 print(stockSpan(arr: arr))
 
 //'(', ')', '{', '}', '[' and ']'
+//2. valid parenthesis
 
 func isValid(_ s: String) -> Bool {
-
+    
     var stack = [Character]()
-
+    
     if s.isEmpty {
         return false
     }
-
+    
     for char in s {
         if (char == "(" || char == "{" || char == "[") {
             stack.append(char)
         } else {
-
+            
             if stack.isEmpty {
                 return false
             }
-
+            
             let top = stack.removeLast()
-
+            
             switch char {
             case ")":
                 if top != "(" {
@@ -83,16 +84,17 @@ func isValid(_ s: String) -> Bool {
 let s = "["
 print(isValid(s))
 
+// longest valid parenthesis
 
 func longestValidParentheses(_ s: String) -> Int {
-
+    
     var stack = [Character]()
     var result = [Character]()
-
+    
     if s.isEmpty {
         return 0
     }
-
+    
     for char in s {
         if char == "(" {
             stack.append(char)
@@ -100,15 +102,15 @@ func longestValidParentheses(_ s: String) -> Int {
             if stack.isEmpty {
                 continue
             }
-
+            
             let top = stack.removeLast()
-
+            
             if char == ")" {
                 result.append(top)
                 result.append(char)
             }
-
-
+            
+            
         }
     }
     return result.count
@@ -117,12 +119,41 @@ func longestValidParentheses(_ s: String) -> Int {
 let s1 = "()(()"
 print(longestValidParentheses(s1))
 
+func longestValidParentheses1(_ s: String) -> Int {
+    var stack = [-1] // Initialize the stack with -1 to mark the base
+    
+    var maxLength = 0
+    
+    for (index, char) in s.enumerated() {
+        if char == "(" {
+            stack.append(index)
+        } else {
+            // Pop the last index from the stack
+            stack.removeLast()
+            
+            if stack.isEmpty {
+                // If the stack is empty, push the current index to mark a new base
+                stack.append(index)
+            } else {
+                // Calculate the length of the valid parentheses substring
+                maxLength = max(maxLength, index - stack.last!)
+            }
+        }
+    }
+    
+    return maxLength
+}
+
+let s11 = "()(())"
+print(longestValidParentheses1(s11)) // Output: 2
+
+
 
 func numIslands(_ grid: [[String]]) -> Int {
-
+    
     var grid = grid
     var numofIslands = 0
-
+    
     for row in 0..<grid.count {
         for col in 0..<grid[0].count {
             if grid[row][col] == "1" {
@@ -131,17 +162,17 @@ func numIslands(_ grid: [[String]]) -> Int {
             }
         }
     }
-
+    
     return numofIslands
-
+    
 }
 
 private func dfs(_ grid: inout [[String]], _ row: Int, _ col: Int) {
     if row < 0 || row >= grid.count || col < 0 || col >= grid[0].count { return }
-
+    
     if grid[row][col] != "1" { return }
     grid[row][col] = "0"
-
+    
     dfs(&grid, row-1, col)
     dfs(&grid, row+1, col)
     dfs(&grid, row, col+1)
@@ -153,90 +184,90 @@ let  grid = [
     ["1","1","0","0","0"],
     ["0","0","1","0","0"],
     ["0","0","0","1","1"]
-  ]
+]
 print(numIslands(grid))
 
 
 // code priority queue
 struct PriorityQueuePractice<T: Comparable> {
-
+    
     private var heap = [T]()
-
+    
     var isEmpty: Bool {
         return heap.isEmpty
     }
-
+    
     var count: Int {
         return heap.count
     }
-
+    
     mutating func enqueue(_ element: T) {
         heap.append(element)
         heapifyUp()
     }
-
+    
     mutating func dequeue() -> T? {
         guard !isEmpty else { return nil }
-
+        
         if heap.count == 1 {
             return heap.removeLast()
         }
-
+        
         let root = heap[0]
         heap[0] = heap.removeLast()
         heapifyDown()
-
+        
         return root
     }
-
+    
     private mutating func heapifyUp() {
-
+        
     }
-
+    
     private mutating func heapifyDown() {
-
+        
     }
 }
 
 
 struct PriorityQueue<T: Comparable> {
     private var heap = [T]()
-
+    
     var isEmpty: Bool {
         return heap.isEmpty
     }
-
+    
     var count: Int {
         return heap.count
     }
-
+    
     mutating func enqueue(_ element: T) {
         heap.append(element)
         heapifyUp()
     }
-
+    
     mutating func dequeue() -> T? {
         guard !isEmpty else {
             return nil
         }
-
+        
         if heap.count == 1 {
             return heap.removeFirst()
         }
-
+        
         let root = heap[0]
         heap[0] = heap.removeLast()
         heapifyDown()
-
+        
         return root
     }
-
+    
     private mutating func heapifyUp() {
         var currentIndex = heap.count - 1
-
+        
         while currentIndex > 0 {
             let parentIndex = (currentIndex - 1) / 2
-
+            
             if heap[currentIndex] < heap[parentIndex] {
                 heap.swapAt(currentIndex, parentIndex)
                 currentIndex = parentIndex
@@ -245,28 +276,28 @@ struct PriorityQueue<T: Comparable> {
             }
         }
     }
-
+    
     private mutating func heapifyDown() {
         var currentIndex = 0
-
+        
         while true {
             let leftChildIndex = 2 * currentIndex + 1
             let rightChildIndex = 2 * currentIndex + 2
-
+            
             var minIndex = currentIndex
-
+            
             if leftChildIndex < heap.count && heap[leftChildIndex] < heap[minIndex] {
                 minIndex = leftChildIndex
             }
-
+            
             if rightChildIndex < heap.count && heap[rightChildIndex] < heap[minIndex] {
                 minIndex = rightChildIndex
             }
-
+            
             if minIndex == currentIndex {
                 break
             }
-
+            
             heap.swapAt(currentIndex, minIndex)
             currentIndex = minIndex
         }
@@ -292,7 +323,7 @@ while !priorityQueue.isEmpty {
 class ListNode {
     var val: Int
     var next: ListNode?
-
+    
     init(_ value: Int) {
         self.val = value
         self.next = nil
@@ -303,11 +334,11 @@ func mergeTwoLists(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
     guard let l1 = l1 else {
         return l2
     }
-
+    
     guard let l2 = l2 else {
         return l1
     }
-
+    
     if l1.val < l2.val {
         l1.next = mergeTwoLists(l1.next, l2)
         return l1
@@ -363,6 +394,9 @@ let nthNumber = nthSmallestNumber(10)
 print("The 5th smallest number in the sequence is: \(nthNumber)")
 
 
+// Sliding window where ws is the ptr.count
+// where que talks about substring and k is given
+
 func findAnagram(s: String, ptr: String) -> Int {
     var arrStr = Array(s)
     var mp = [Character: Int]()
@@ -417,6 +451,8 @@ func findAnagram(s: String, ptr: String) -> Int {
 let result = findAnagram(s: "aabaaabaa", ptr: "aaba")
 print(result)
 
+// Sliding window where ws is the the map.count
+// where que talks about substring and k is given
 
 func logestSubstringNoRepeatChar(s: String) -> Int {
     
@@ -535,7 +571,7 @@ minStack.getMin(); // return -2
 //class ListNode {
 //    var val: Int
 //    var next: ListNode?
-//    
+//
 //    init(_ val: Int) {
 //        self.val = val
 //        self.next = nil
@@ -546,8 +582,8 @@ minStack.getMin(); // return -2
 //    guard head != nil else {
 //        return nil
 //    }
-//    
-//    
+//
+//
 //}
 
 func insertionSortList(_ head: ListNode?) -> ListNode? {
@@ -606,4 +642,49 @@ func printList(_ head: ListNode?) {
     print("nil")
 }
 
+//func predictTheWinner(_ nums: [Int]) -> Bool {
+//
+//    let n = nums.count
+//    var dp = Array(repeating: Array(repeating: 0, count: n), count: n)
+//
+//    for i in 0..<n {
+//        dp[i][i] = nums[i]
+//    }
+//
+//}
 
+func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+    var result = [Int]()
+    
+    for i in 0..<nums.count {
+       let secondNum = target - nums[i]
+        if (nums.contains(secondNum)) {
+            result.append(i)
+            result.append(nums.firstIndex(of: secondNum)!)
+            break
+        }
+        
+    }
+    
+    return result
+}
+
+let nums = [3,2,4], target = 6
+
+print(twoSum(nums, target))
+
+func fizzBuzz(n: Int) -> Void {
+    for i in 1...n {
+        if i%3 == 0 && i%5 == 0 {
+            print("FizzBuzz")
+        }else if i%3 == 0 {
+            print("Fizz")
+        }else if i%5 == 0 {
+            print("Buzz")
+        }else {
+            print(i)
+        }
+    }
+}
+
+fizzBuzz(n: 15)

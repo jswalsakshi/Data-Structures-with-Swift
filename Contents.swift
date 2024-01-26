@@ -784,14 +784,263 @@ class Solution {
     func maxProfit(_ prices: [Int]) -> Int {
         var salePrice = -1
         var ans = 0
-
+        
         for price in prices.reversed() {
             if price >= salePrice { salePrice = price  }
             else {
                 ans = max(ans, (salePrice - price))
             }
         }
-
+        
         return ans
     }
 }
+
+// 5. Valid Palindrome
+
+func isPalindrome(_ s: String) -> Bool {
+    guard !s.isEmpty else { return true }
+    
+    var inputString = s.replacingOccurrences(of: "[^a-zA-Z0-9]", with: "", options: .regularExpression)
+        .lowercased()
+    
+    
+    var outputString = String(inputString.reversed())
+    
+    return inputString == outputString
+}
+
+let s0 = "A man, a plan, a canal: Panama"
+
+isPalindrome(s0)
+
+func isPalindromeOptimised(_ s: String) -> Bool {
+    let sArray = Array(s);
+    var left: Int = 0;
+    var right: Int = sArray.count - 1;
+    
+    while left < right {
+        var leftChar: Character = sArray[left];
+        var rightChar: Character = sArray[right];
+        
+        if !leftChar.isLetter && !leftChar.isNumber {
+            left += 1;
+            continue;
+        }
+        
+        if !rightChar.isLetter && !rightChar.isNumber {
+            right -= 1;
+            continue;
+        }
+        
+        if leftChar.lowercased() != rightChar.lowercased() {
+            return false;
+        }
+        
+        left += 1;
+        right -= 1;
+    }
+    
+    return true;
+}
+
+isPalindromeOptimised(s0)
+
+
+//6. Invert Binary Tree
+
+//Definition for a binary tree node.
+
+public class TreeNode {
+    public var val: Int
+    public var left: TreeNode?
+    public var right: TreeNode?
+    public init() { self.val = 0; self.left = nil; self.right = nil; }
+    public init(_ val: Int) { self.val = val; self.left = nil; self.right = nil; }
+    public init(_ val: Int, _ left: TreeNode?, _ right: TreeNode?) {
+        self.val = val
+        self.left = left
+        self.right = right
+    }}
+
+func invertTree(_ root: TreeNode?) -> TreeNode? {
+    guard let root = root else { return nil }
+    
+    // Recursively invert the left and right subtrees
+    let left = invertTree(root.left)
+    let right = invertTree(root.right)
+    
+    // Swap the left and right subtrees
+    root.left = right
+    root.right = left
+    
+    return root
+}
+
+
+//root = [4,2,7,1,3,6,9]
+
+let root = TreeNode(2, TreeNode(1), TreeNode(3))
+
+print(invertTree(root)!)
+
+
+//7.  Valid Anagram
+
+func isAnagram(_ s: String, _ t: String) -> Bool {
+    
+    guard s.count == t.count else { return false }
+    
+    var map = [Character: Int]()
+    
+    for char in s {
+        if let mapChar = map[char] {
+            map[char]! += 1
+        } else {
+            map[char] = 1
+        }
+    }
+    
+    for ch in t {
+        if map.keys.contains(ch) {
+            map[ch]! -= 1
+        }
+        if map[ch] == 0 {
+            map.removeValue(forKey: ch)
+        }
+    }
+    
+    return map.isEmpty && (s.count == t.count)
+}
+
+let s12 = "anagram", t12 = "nagaramx"
+
+isAnagram(s12, t12)
+
+//8. Binary Search
+
+func search(_ nums: [Int], _ target: Int) -> Int {
+    var start = 0
+    var end = nums.count - 1
+    
+    while start <= end {
+        var mid = start + (end-start)/2
+        
+        if target == nums[mid] {
+            return mid
+        } else if target < nums[mid] {
+            end = mid - 1
+        } else {
+            start = mid + 1
+        }
+    }
+    return -1
+}
+
+let nums13 = [-1,0,3,5,9,12], target13 = 9
+
+search(nums13, target13)
+
+// 9. Flood Fill
+
+func floodFill(_ image: inout [[Int]], _ sr: Int, _ sc: Int, _ newColor: Int) -> [[Int]] {
+    let originalColor = image[sr][sc]
+    if originalColor == newColor {
+        return image
+    }
+    dfs(&image, sr, sc, originalColor, newColor)
+    return image
+}
+
+func dfs(_ image: inout [[Int]], _ r: Int, _ c: Int, _ originalColor: Int, _ newColor: Int) {
+    let rows = image.count
+    let cols = image[0].count
+    
+    if r < 0 || r >= rows || c < 0 || c >= cols || image[r][c] != originalColor {
+        return
+    }
+    
+    image[r][c] = newColor
+    
+    dfs(&image, r + 1, c, originalColor, newColor)
+    dfs(&image, r - 1, c, originalColor, newColor)
+    dfs(&image, r, c + 1, originalColor, newColor)
+    dfs(&image, r, c - 1, originalColor, newColor)
+}
+
+// Example usage:
+var image1 = [[1,1,1],[1,1,0],[1,0,1]]
+let sr1 = 1
+let sc1 = 1
+let color1 = 2
+
+print(floodFill(&image1, sr1, sc1, color1)) // Output: [[2,2,2],[2,2,0],[2,0,1]]
+
+var image2 = [[0,0,0],[0,0,0]]
+let sr2 = 0
+let sc2 = 0
+let color2 = 0
+
+print(floodFill(&image2, sr2, sc2, color2)) // Output: [[0,0,0],[0,0,0]]
+
+
+// 10.  Lowest Common Ancestor of a Binary Search Tree
+
+// 11. Balanced Binary Tree
+
+func isBalanced(_ root: TreeNode?) -> Bool {
+    return checkHeight(root) != -1
+}
+
+func checkHeight(_ node: TreeNode?) -> Int {
+    guard let node = node else { return 0 } //BC
+    
+    let leftHeight = checkHeight(node.left) //Hypothesis
+    let rightHeight = checkHeight(node.right)// hypothesis
+    
+    if leftHeight == -1 || rightHeight == -1 || abs(leftHeight - rightHeight) > 1 { //induction
+        return -1
+    }
+    
+    return 1 + max(leftHeight, rightHeight)
+}
+
+// Example usage:
+let root1 = TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7)))
+print(isBalanced(root1)) // Output: true
+
+let root2 = TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4), TreeNode(4)), TreeNode(3)), TreeNode(2))
+print(isBalanced(root2)) // Output: false
+
+let root3: TreeNode? = nil
+print(isBalanced(root3)) // Output: true
+
+// 12. Linked List Cycle
+
+func hasCycle(_ head: ListNode?) -> Bool {
+    if head?.next == nil { return false }
+    
+    var next = hasCycle(head?.next)
+    
+    return next
+}
+
+
+// Example usage:
+let head1 = ListNode(3)
+head1.next = ListNode(2)
+head1.next?.next = ListNode(0)
+head1.next?.next?.next = ListNode(-4)
+head1.next?.next?.next?.next = head1.next // Connects to the 1st node
+
+print(hasCycle(head1)) // Output: true
+
+let head2 = ListNode(1)
+head2.next = ListNode(2)
+head2.next?.next = head2 // Connects to the 0th node
+
+print(hasCycle(head2)) // Output: true
+
+let head3 = ListNode(1)
+
+print(hasCycle(head3)) 

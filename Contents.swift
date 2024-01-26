@@ -653,22 +653,6 @@ func printList(_ head: ListNode?) {
 //
 //}
 
-func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
-    var result = [Int]()
-    
-    for i in 0..<nums.count {
-       let secondNum = target - nums[i]
-        if (nums.contains(secondNum)) {
-            result.append(i)
-            result.append(nums.firstIndex(of: secondNum)!)
-            break
-        }
-        
-    }
-    
-    return result
-}
-
 let nums = [3,2,4], target = 6
 
 print(twoSum(nums, target))
@@ -688,3 +672,126 @@ func fizzBuzz(n: Int) -> Void {
 }
 
 fizzBuzz(n: 15)
+
+
+func findMinPrice(prices: [Int], m: Int) -> Int {
+    var sum = prices.reduce(0) { partialResult, price in
+        partialResult + price
+    }
+    
+    var mn = Int.max
+    
+    for price in prices {
+        let discount = price/2^m
+        mn = min(mn, sum - price + discount)
+    }
+    
+    return mn
+}
+
+let prices = [2, 4, 12], m = 3
+
+print(findMinPrice(prices: prices, m: 2))
+
+
+// 75 Questions to practice
+// 1. 2 Sum
+
+func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+    var toggle = false
+    var result = [Int]()
+    
+    if toggle == false {
+        for i in 0..<nums.count {
+            for j in (i+1)..<nums.count {
+                if nums[j] == target - nums[i] {
+                    result.append(i)
+                    result.append(j)
+                    toggle = true
+                    break
+                }
+            }
+        }
+    }
+    return result
+}
+
+let nums3 = [3,2,4], target3 = 6
+
+print(twoSum(nums3, target3))
+
+// 2.  Valid Parentheses
+
+func isValidPractice(_ s: String) -> Bool {
+    guard !s.isEmpty else { return false }
+    
+    var data = [Character]()
+    
+    for char in s {
+        if (char == "(" || char == "{" || char == "[") {
+            data.append(char)
+        } else {
+            if data.isEmpty {
+                return false
+            } else {
+                let top = data.removeLast()
+                
+                switch char {
+                case ")":
+                    if top != "(" {
+                        return false
+                    }
+                case "]":
+                    if top != "[" {
+                        return false
+                    }
+                case "}":
+                    if top != "{" {
+                        return false
+                    }
+                default:
+                    return false
+                }
+            }
+        }
+    }
+    return data.isEmpty
+}
+
+let s4 = ""
+isValidPractice(s)
+
+// 3. Merge Two Sorted Lists
+
+func mergeTwoListsPractice(_ list1: ListNode?, _ list2: ListNode?) -> ListNode? {
+    guard var list1 = list1  else { return list2 }
+    guard var list2 = list2 else { return list1 }
+    
+    if list1.val > list2.val {
+        list2.next = mergeTwoListsPractice(list1.next, list2)
+        return list2
+    } else {
+        list1.next = mergeTwoListsPractice(list1, list2.next)
+        return list1
+    }
+}
+
+//let list8 = [1,2,4], list9 = [1,3,4]
+
+//4. Best Time to Buy and Sell Stock
+
+class Solution {
+    func maxProfit(_ prices: [Int]) -> Int {
+        var salePrice = -1
+        var ans = 0
+
+        for price in prices.reversed() {
+            if price >= salePrice { salePrice = price  }
+            else {
+                ans = max(ans, (salePrice - price))
+            }
+        }
+
+        return ans
+    }
+}

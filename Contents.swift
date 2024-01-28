@@ -1226,50 +1226,223 @@ public class TreeNode {
 
 // 19. Majority Element
 
-func majorityElement(_ nums: [Int]) -> Int {
+//func majorityElement(_ nums: [Int]) -> Int {
+//
+//    var maxVal = 0
+//    var frequecy = [Int: Int]()
+//
+//    for num in nums {
+//        frequecy[num, default: 0] += 1
+//    }
+//
+//    for key in frequecy.keys {
+//        if frequecy[key] == frequecy.values.max()! {
+//            maxVal = key
+//        }
+//    }
+//
+//    return maxVal
+//}
+//
+//let nums = [2,2,1,1,1,2,2]
+//
+//print(majorityElement(nums))
+//
+//// 20. Add Binary
+//
+//// 21. Diameter of Binary Tree
+//
+//func diameterOfBinaryTree(_ root: TreeNode?) -> Int {
+//    var diameter = 0
+//    calculateDiameter(root, &diameter)
+//    return diameter
+//}
+//
+//func calculateDiameter(_ node: TreeNode?, _ diameter: inout Int) -> Int {
+//    guard let node = node else { return 0 }
+//
+//    let leftHeight = calculateDiameter(node.left, &diameter)
+//    let rightHeight = calculateDiameter(node.right, &diameter)
+//
+//    diameter = max(diameter, leftHeight + rightHeight)
+//
+//    return max(leftHeight, rightHeight) + 1
+//}
+//
+//let root2 = TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4), TreeNode(4)), TreeNode(3)), TreeNode(2))
+//diameterOfBinaryTree(root2)
+//
+//// 22. Middle of the Linked List
+//
+//func middleNode(_ head: ListNode?) -> ListNode? {
+//    var slow = head
+//    var fast = head
+//
+//    // Move fast pointer two steps ahead and slow pointer one step ahead
+//    while fast != nil && fast?.next != nil {
+//        slow = slow?.next
+//        fast = fast?.next?.next
+//    }
+//
+//    // When fast pointer reaches the end, slow pointer will be at the middle
+//    return slow
+//}
+//
+//let list1 = ListNode(4)
+//list1.next = ListNode(2)
+//list1.next?.next = ListNode(1)
+//list1.next?.next?.next = ListNode(3)
+//if let middle1 = middleNode(list1) {
+//    print(middle1.val)
+//}
+//
+//// 23. Maximum Depth of Binary Tree
+//
+//func maxDepth(_ root: TreeNode?) -> Int {
+//    var depth = 0
+//    calculateDepth(root, currentDepth: 1, maxDepth: &depth)
+//    return depth
+//}
+//
+//func calculateDepth(_ node: TreeNode?, currentDepth: Int, maxDepth: inout Int) {
+//    guard let node = node else { return }
+//
+//    // Update maxDepth if currentDepth is greater
+//    maxDepth = max(maxDepth, currentDepth)
+//
+//    // Recursively calculate depth for left and right subtrees
+//    calculateDepth(node.left, currentDepth: currentDepth + 1, maxDepth: &maxDepth)
+//    calculateDepth(node.right, currentDepth: currentDepth + 1, maxDepth: &maxDepth)
+//}
+//
+//
+//maxDepth(root2)
+//
+//
+//// 24. Contains Duplicate
+//
+//func containsDuplicate(_ nums: [Int]) -> Bool {
+//    var map = [Int: Int]()
+//
+//    for num in nums {
+//        map[num, default: 0] += 1
+//        if map[num]! > 1 {
+//            return true
+//        }
+//    }
+//    return false
+//}
+//
+//let nums33 = [1,1,1,3,3,4,3,2,4,2]
+//containsDuplicate(nums33)
+
+
+// 25. Maximum Subarray
+
+func maxSubArray(_ nums: [Int]) -> Int {
+    var maxEndingHere = nums[0]
+    var maxSoFar = nums[0]
     
-    var maxVal = 0
-    var frequecy = [Int: Int]()
-    
-    for num in nums {
-        frequecy[num, default: 0] += 1
+    for i in 1..<nums.count {
+        maxEndingHere = max(nums[i], maxEndingHere + nums[i])
+        maxSoFar = max(maxSoFar, maxEndingHere)
     }
     
-    for key in frequecy.keys {
-        if frequecy[key] == frequecy.values.max()! {
-            maxVal = key
+    return maxSoFar
+}
+
+// Example usage:
+print(maxSubArray([-2,1,-3,4,-1,2,1,-5,4])) // Output: 6
+print(maxSubArray([1]))                     // Output: 1
+print(maxSubArray([5,4,-1,7,8]))            // Output: 23
+
+// 26.  Insert Interval
+
+func insert(_ intervals: [[Int]], _ newInterval: [Int]) -> [[Int]] {
+    var result = [[Int]]()
+    var i = 0
+    
+    // Add intervals that are strictly before the new interval
+    while i < intervals.count && intervals[i][1] < newInterval[0] {
+        result.append(intervals[i])
+        i += 1
+    }
+    
+    // Merge overlapping intervals with the new interval
+    var mergedInterval = newInterval
+    while i < intervals.count && intervals[i][0] <= mergedInterval[1] {
+        mergedInterval[0] = min(mergedInterval[0], intervals[i][0])
+        mergedInterval[1] = max(mergedInterval[1], intervals[i][1])
+        i += 1
+    }
+    result.append(mergedInterval)
+    
+    // Add intervals that are strictly after the new interval
+    while i < intervals.count {
+        result.append(intervals[i])
+        i += 1
+    }
+    
+    return result
+}
+
+func insertOptimised(_ intervals: [[Int]], _ newInterval: [Int]) -> [[Int]] {
+    var l = [[Int]](), r = [[Int]]()
+    var newInterval = newInterval
+    
+    for interval in intervals {
+        if interval[1] < newInterval[0] {
+            l.append(interval)
+        } else if interval[0] > newInterval[1] {
+            r.append(interval)
+        } else {
+            newInterval = [min(interval[0], newInterval[0]), max(interval[1], newInterval[1])]
+        }
+    }
+    return l + [newInterval] + r
+}
+
+
+// Example usage:
+print(insert([[1,3],[6,9]], [2,5]))                     // Output: [[1,5],[6,9]]
+print(insertOptimised([[1,2],[3,5],[6,7],[8,10],[12,16]], [4,8])) // Output: [[1,2],[3,10],[12,16]]
+
+
+// 27. 01 Matrix
+
+func updateMatrix(_ mat: [[Int]]) -> [[Int]] {
+    guard !mat.isEmpty else { return [] } // Handle empty input matrix
+    let row = mat.count
+    let col = mat[0].count
+    
+    var result = Array(repeating: Array(repeating: 0, count: col), count: row)
+    
+    for i in 0..<row {
+        for j in 0..<col {
+            result[i][j] = mat[i][j] // Initialize result with values from mat
         }
     }
     
-    return maxVal
+    for i in 0..<row {
+        for j in 0..<col {
+            if result[i][j] != 0 {
+                result[i][j] = min(i > 0 ? result[i - 1][j] + 1 : Int.max / 2, j > 0 ? result[i][j - 1] + 1 : Int.max / 2)
+            }
+        }
+    }
+    
+    for i in (0..<row).reversed() {
+        for j in (0..<col).reversed() {
+            if result[i][j] != 0 {
+                result[i][j] = min(result[i][j], i < row - 1 ? result[i + 1][j] + 1 : Int.max / 2, j < col - 1 ? result[i][j + 1] + 1 : Int.max / 2)
+            }
+        }
+    }
+    
+    return result
 }
 
-let nums = [2,2,1,1,1,2,2]
+// Example usage:
+let mat = [[0,0,0],[0,1,0],[1,1,1]]
+print(updateMatrix(mat))
 
-print(majorityElement(nums))
-
-// 20. Add Binary
-
-// 21. Diameter of Binary Tree
-
-func diameterOfBinaryTree(_ root: TreeNode?) -> Int {
-    var diameter = 0
-    calculateDiameter(root, &diameter)
-    return diameter
-}
-
-func calculateDiameter(_ node: TreeNode?, _ diameter: inout Int) -> Int {
-    guard let node = node else { return 0 }
-    
-    let leftHeight = calculateDiameter(node.left, &diameter)
-    let rightHeight = calculateDiameter(node.right, &diameter)
-    
-    diameter = max(diameter, leftHeight + rightHeight)
-    
-    return max(leftHeight, rightHeight) + 1
-}
-
-let root2 = TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4), TreeNode(4)), TreeNode(3)), TreeNode(2))
-diameterOfBinaryTree(root2)
-
-// 22. Middle of the Linked List

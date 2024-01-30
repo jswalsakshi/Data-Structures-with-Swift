@@ -1,324 +1,294 @@
 import Foundation
+//         0    1   2   3   4   5   6
+let arr = [100, 80, 60, 70, 60, 75, 85]
 
-//let arr = [100, 80, 60, 70, 60, 75, 85]
-//
-//// 1. for anyday, number of stock price which are smaller
-//
-//func stockSpan(arr: [Int]) -> [Int] {
-//
-//    var stack: [(Int, Int)] = [(Int, Int)]()
-//    var output: [Int] = [Int]()
-//    var result = [Int](repeating: 0, count: arr.count)
-//
-//    for i in 0..<arr.count {
-//        if stack.isEmpty {
-//            output.append(-1)
-//        } else if (!stack.isEmpty && stack.last!.0 >= arr[i]) {
-//            output.append(stack.last!.1)
-//        } else {
-//            while (!stack.isEmpty && stack.last!.0 < arr[i]) {
-//                stack.removeLast()
-//            }
-//            if stack.isEmpty {
-//                output.append(-1)
-//            } else {
-//                output.append(stack.last!.1)
-//            }
-//
-//        }
-//        stack.append((arr[i], i))
-//    }
-//
-//    for i in 0..<arr.count {
-//        result[i] = i - output[i]
-//    }
-//
-//    return result
-//}
-//
-//print(stockSpan(arr: arr))
-//
-////'(', ')', '{', '}', '[' and ']'
-////2. valid parenthesis
-//
-//func isValid(_ s: String) -> Bool {
-//
-//    var stack = [Character]()
-//
-//    if s.isEmpty {
-//        return false
-//    }
-//
-//    for char in s {
-//        if (char == "(" || char == "{" || char == "[") {
-//            stack.append(char)
-//        } else {
-//
-//            if stack.isEmpty {
-//                return false
-//            }
-//
-//            let top = stack.removeLast()
-//
-//            switch char {
-//            case ")":
-//                if top != "(" {
-//                    return false
-//                }
-//            case "}":
-//                if top != "{" {
-//                    return false
-//                }
-//            case "]":
-//                if top != "[" {
-//                    return false
-//                }
-//            default:
-//                return false
-//            }
-//        }
-//    }
-//    return stack.isEmpty
-//}
-//
-//let s = "["
-//print(isValid(s))
-//
-//// longest valid parenthesis
-//
-//func longestValidParentheses(_ s: String) -> Int {
-//
-//    var stack = [Character]()
-//    var result = [Character]()
-//
-//    if s.isEmpty {
-//        return 0
-//    }
-//
-//    for char in s {
-//        if char == "(" {
-//            stack.append(char)
-//        } else {
-//            if stack.isEmpty {
-//                continue
-//            }
-//
-//            let top = stack.removeLast()
-//
-//            if char == ")" {
-//                result.append(top)
-//                result.append(char)
-//            }
-//
-//
-//        }
-//    }
-//    return result.count
-//}
-//
-//let s1 = "()(()"
-//print(longestValidParentheses(s1))
-//
-//func longestValidParentheses1(_ s: String) -> Int {
-//    var stack = [-1] // Initialize the stack with -1 to mark the base
-//
-//    var maxLength = 0
-//
-//    for (index, char) in s.enumerated() {
-//        if char == "(" {
-//            stack.append(index)
-//        } else {
-//            // Pop the last index from the stack
-//            stack.removeLast()
-//
-//            if stack.isEmpty {
-//                // If the stack is empty, push the current index to mark a new base
-//                stack.append(index)
-//            } else {
-//                // Calculate the length of the valid parentheses substring
-//                maxLength = max(maxLength, index - stack.last!)
-//            }
-//        }
-//    }
-//
-//    return maxLength
-//}
-//
-//let s11 = "()(())"
-//print(longestValidParentheses1(s11)) // Output: 2
-//
-//
-//
-//func numIslands(_ grid: [[String]]) -> Int {
-//
-//    var grid = grid
-//    var numofIslands = 0
-//
-//    for row in 0..<grid.count {
-//        for col in 0..<grid[0].count {
-//            if grid[row][col] == "1" {
-//                dfs(&grid, row, col)
-//                numofIslands += 1
-//            }
-//        }
-//    }
-//
-//    return numofIslands
-//
-//}
-//
-//private func dfs(_ grid: inout [[String]], _ row: Int, _ col: Int) {
-//    if row < 0 || row >= grid.count || col < 0 || col >= grid[0].count { return }
-//
-//    if grid[row][col] != "1" { return }
-//    grid[row][col] = "0"
-//
-//    dfs(&grid, row-1, col)
-//    dfs(&grid, row+1, col)
-//    dfs(&grid, row, col+1)
-//    dfs(&grid, row, col-1)
-//}
-//
-//let  grid = [
-//    ["1","1","0","0","0"],
-//    ["1","1","0","0","0"],
-//    ["0","0","1","0","0"],
-//    ["0","0","0","1","1"]
-//]
-//print(numIslands(grid))
-//
-//
-//// code priority queue
-//struct PriorityQueuePractice<T: Comparable> {
-//
-//    private var heap = [T]()
-//
-//    var isEmpty: Bool {
-//        return heap.isEmpty
-//    }
-//
-//    var count: Int {
-//        return heap.count
-//    }
-//
-//    mutating func enqueue(_ element: T) {
-//        heap.append(element)
-//        heapifyUp()
-//    }
-//
-//    mutating func dequeue() -> T? {
-//        guard !isEmpty else { return nil }
-//
-//        if heap.count == 1 {
-//            return heap.removeLast()
-//        }
-//
-//        let root = heap[0]
-//        heap[0] = heap.removeLast()
-//        heapifyDown()
-//
-//        return root
-//    }
-//
-//    private mutating func heapifyUp() {
-//
-//    }
-//
-//    private mutating func heapifyDown() {
-//
-//    }
-//}
-//
-//
-//struct PriorityQueue<T: Comparable> {
-//    private var heap = [T]()
-//
-//    var isEmpty: Bool {
-//        return heap.isEmpty
-//    }
-//
-//    var count: Int {
-//        return heap.count
-//    }
-//
-//    mutating func enqueue(_ element: T) {
-//        heap.append(element)
-//        heapifyUp()
-//    }
-//
-//    mutating func dequeue() -> T? {
-//        guard !isEmpty else {
-//            return nil
-//        }
-//
-//        if heap.count == 1 {
-//            return heap.removeFirst()
-//        }
-//
-//        let root = heap[0]
-//        heap[0] = heap.removeLast()
-//        heapifyDown()
-//
-//        return root
-//    }
-//
-//    private mutating func heapifyUp() {
-//        var currentIndex = heap.count - 1
-//
-//        while currentIndex > 0 {
-//            let parentIndex = (currentIndex - 1) / 2
-//
-//            if heap[currentIndex] < heap[parentIndex] {
-//                heap.swapAt(currentIndex, parentIndex)
-//                currentIndex = parentIndex
-//            } else {
-//                break
-//            }
-//        }
-//    }
-//
-//    private mutating func heapifyDown() {
-//        var currentIndex = 0
-//
-//        while true {
-//            let leftChildIndex = 2 * currentIndex + 1
-//            let rightChildIndex = 2 * currentIndex + 2
-//
-//            var minIndex = currentIndex
-//
-//            if leftChildIndex < heap.count && heap[leftChildIndex] < heap[minIndex] {
-//                minIndex = leftChildIndex
-//            }
-//
-//            if rightChildIndex < heap.count && heap[rightChildIndex] < heap[minIndex] {
-//                minIndex = rightChildIndex
-//            }
-//
-//            if minIndex == currentIndex {
-//                break
-//            }
-//
-//            heap.swapAt(currentIndex, minIndex)
-//            currentIndex = minIndex
-//        }
-//    }
-//}
-//
-//// Example usage:
-//var priorityQueue = PriorityQueue<Int>()
-//priorityQueue.enqueue(3)
-//priorityQueue.enqueue(1)
-//priorityQueue.enqueue(4)
-//priorityQueue.enqueue(1)
-//priorityQueue.enqueue(5)
-//
-//while !priorityQueue.isEmpty {
-//    if let element = priorityQueue.dequeue() {
-//        print(element)
-//    }
-//}
-//
-//// merge sorted linkedin
+// 1. for anyday, number of stock price which are smaller including the day itself
+// next larger to left, Stack problem
+
+func stockSpan(arr: [Int]) -> [Int] {
+
+    var stack: [(Int, Int)] = [(Int, Int)]()
+    var output: [Int] = [Int]()
+    var result = [Int](repeating: 0, count: arr.count)
+
+    for i in 0..<arr.count {
+        if stack.isEmpty {
+            output.append(-1)
+        } else if (!stack.isEmpty && stack.last!.0 >= arr[i]) {
+            output.append(stack.last!.1)
+        } else {
+            while (!stack.isEmpty && stack.last!.0 < arr[i]) {
+                stack.removeLast()
+            }
+            if stack.isEmpty {
+                output.append(-1)
+            } else {
+                output.append(stack.last!.1)
+            }
+
+        }
+        stack.append((arr[i], i))
+    }
+
+    for i in 0..<arr.count {
+        result[i] = i - output[i]
+    }
+
+    return result
+}
+
+print(stockSpan(arr: arr))
+
+//'(', ')', '{', '}', '[' and ']'
+//2. valid parenthesis
+
+func isValid(_ s: String) -> Bool {
+
+    var stack = [Character]()
+
+    if s.isEmpty {
+        return false
+    }
+
+    for char in s {
+        if (char == "(" || char == "{" || char == "[") {
+            stack.append(char)
+        } else {
+
+            if stack.isEmpty {
+                return false
+            }
+
+            let top = stack.removeLast()
+
+            switch char {
+            case ")":
+                if top != "(" {
+                    return false
+                }
+            case "}":
+                if top != "{" {
+                    return false
+                }
+            case "]":
+                if top != "[" {
+                    return false
+                }
+            default:
+                return false
+            }
+        }
+    }
+    return stack.isEmpty
+}
+
+let s = "["
+print(isValid(s))
+
+// longest valid parenthesis
+
+let s1 = "()(()"
+
+func longestValidParentheses1(_ s: String) -> Int {
+    var stack = [-1] // Initialize the stack with -1 to mark the base
+
+    var maxLength = 0
+
+    for (index, char) in s.enumerated() {
+        if char == "(" {
+            stack.append(index)
+        } else {
+            // Pop the last index from the stack
+            stack.removeLast()
+
+            if stack.isEmpty {
+                // If the stack is empty, push the current index to mark a new base
+                stack.append(index)
+            } else {
+                // Calculate the length of the valid parentheses substring
+                maxLength = max(maxLength, index - stack.last!)
+            }
+        }
+    }
+
+    return maxLength
+}
+
+let s11 = "()(())"
+print(longestValidParentheses1(s1)) // Output: 2
+
+
+
+func numIslands(_ grid: [[String]]) -> Int {
+
+    var grid = grid
+    var numofIslands = 0
+
+    for row in 0..<grid.count {
+        for col in 0..<grid[0].count {
+            if grid[row][col] == "1" {
+                dfs(&grid, row, col)
+                numofIslands += 1
+            }
+        }
+    }
+
+    return numofIslands
+
+}
+
+private func dfs(_ grid: inout [[String]], _ row: Int, _ col: Int) {
+    if row < 0 || row >= grid.count || col < 0 || col >= grid[0].count { return }
+
+    if grid[row][col] != "1" { return }
+    grid[row][col] = "0"
+
+    dfs(&grid, row-1, col)
+    dfs(&grid, row+1, col)
+    dfs(&grid, row, col+1)
+    dfs(&grid, row, col-1)
+}
+
+let  grid = [
+    ["1","1","0","0","0"],
+    ["1","1","0","0","0"],
+    ["0","0","1","0","0"],
+    ["0","0","0","1","1"]
+]
+print(numIslands(grid))
+
+
+// code priority queue
+struct PriorityQueuePractice<T: Comparable> {
+
+    private var heap = [T]()
+
+    var isEmpty: Bool {
+        return heap.isEmpty
+    }
+
+    var count: Int {
+        return heap.count
+    }
+
+    mutating func enqueue(_ element: T) {
+        heap.append(element)
+        heapifyUp()
+    }
+
+    mutating func dequeue() -> T? {
+        guard !isEmpty else { return nil }
+
+        if heap.count == 1 {
+            return heap.removeLast()
+        }
+
+        let root = heap[0]
+        heap[0] = heap.removeLast()
+        heapifyDown()
+
+        return root
+    }
+
+    private mutating func heapifyUp() {
+
+    }
+
+    private mutating func heapifyDown() {
+
+    }
+}
+
+
+struct PriorityQueue<T: Comparable> {
+    private var heap = [T]()
+
+    var isEmpty: Bool {
+        return heap.isEmpty
+    }
+
+    var count: Int {
+        return heap.count
+    }
+
+    mutating func enqueue(_ element: T) {
+        heap.append(element)
+        heapifyUp()
+    }
+
+    mutating func dequeue() -> T? {
+        guard !isEmpty else {
+            return nil
+        }
+
+        if heap.count == 1 {
+            return heap.removeFirst()
+        }
+
+        let root = heap[0]
+        heap[0] = heap.removeLast()
+        heapifyDown()
+
+        return root
+    }
+
+    private mutating func heapifyUp() {
+        var currentIndex = heap.count - 1
+
+        while currentIndex > 0 {
+            let parentIndex = (currentIndex - 1) / 2
+
+            if heap[currentIndex] < heap[parentIndex] {
+                heap.swapAt(currentIndex, parentIndex)
+                currentIndex = parentIndex
+            } else {
+                break
+            }
+        }
+    }
+
+    private mutating func heapifyDown() {
+        var currentIndex = 0
+
+        while true {
+            let leftChildIndex = 2 * currentIndex + 1
+            let rightChildIndex = 2 * currentIndex + 2
+
+            var minIndex = currentIndex
+
+            if leftChildIndex < heap.count && heap[leftChildIndex] < heap[minIndex] {
+                minIndex = leftChildIndex
+            }
+
+            if rightChildIndex < heap.count && heap[rightChildIndex] < heap[minIndex] {
+                minIndex = rightChildIndex
+            }
+
+            if minIndex == currentIndex {
+                break
+            }
+
+            heap.swapAt(currentIndex, minIndex)
+            currentIndex = minIndex
+        }
+    }
+}
+
+// Example usage:
+var priorityQueue = PriorityQueue<Int>()
+priorityQueue.enqueue(3)
+priorityQueue.enqueue(1)
+priorityQueue.enqueue(4)
+priorityQueue.enqueue(1)
+priorityQueue.enqueue(5)
+
+while !priorityQueue.isEmpty {
+    if let element = priorityQueue.dequeue() {
+        print(element)
+    }
+}
+
+// merge sorted linkedin
 
 class ListNode {
     var val: Int
@@ -1339,102 +1309,184 @@ public class TreeNode {
 
 // 25. Maximum Subarray
 
-func maxSubArray(_ nums: [Int]) -> Int {
-    var maxEndingHere = nums[0]
-    var maxSoFar = nums[0]
-    
-    for i in 1..<nums.count {
-        maxEndingHere = max(nums[i], maxEndingHere + nums[i])
-        maxSoFar = max(maxSoFar, maxEndingHere)
-    }
-    
-    return maxSoFar
-}
+//func maxSubArray(_ nums: [Int]) -> Int {
+//    var maxEndingHere = nums[0]
+//    var maxSoFar = nums[0]
+//    
+//    for i in 1..<nums.count {
+//        maxEndingHere = max(nums[i], maxEndingHere + nums[i])
+//        maxSoFar = max(maxSoFar, maxEndingHere)
+//    }
+//    
+//    return maxSoFar
+//}
+//
+//// Example usage:
+//print(maxSubArray([-2,1,-3,4,-1,2,1,-5,4])) // Output: 6
+//print(maxSubArray([1]))                     // Output: 1
+//print(maxSubArray([5,4,-1,7,8]))            // Output: 23
+//
+//// 26.  Insert Interval
+//
+//func insert(_ intervals: [[Int]], _ newInterval: [Int]) -> [[Int]] {
+//    var result = [[Int]]()
+//    var i = 0
+//    
+//    // Add intervals that are strictly before the new interval
+//    while i < intervals.count && intervals[i][1] < newInterval[0] {
+//        result.append(intervals[i])
+//        i += 1
+//    }
+//    
+//    // Merge overlapping intervals with the new interval
+//    var mergedInterval = newInterval
+//    while i < intervals.count && intervals[i][0] <= mergedInterval[1] {
+//        mergedInterval[0] = min(mergedInterval[0], intervals[i][0])
+//        mergedInterval[1] = max(mergedInterval[1], intervals[i][1])
+//        i += 1
+//    }
+//    result.append(mergedInterval)
+//    
+//    // Add intervals that are strictly after the new interval
+//    while i < intervals.count {
+//        result.append(intervals[i])
+//        i += 1
+//    }
+//    
+//    return result
+//}
+//
+//func insertOptimised(_ intervals: [[Int]], _ newInterval: [Int]) -> [[Int]] {
+//    var l = [[Int]](), r = [[Int]]()
+//    var newInterval = newInterval
+//    
+//    for interval in intervals {
+//        if interval[1] < newInterval[0] {
+//            l.append(interval)
+//        } else if interval[0] > newInterval[1] {
+//            r.append(interval)
+//        } else {
+//            newInterval = [min(interval[0], newInterval[0]), max(interval[1], newInterval[1])]
+//        }
+//    }
+//    return l + [newInterval] + r
+//}
+//
+//
+//// Example usage:
+//print(insert([[1,3],[6,9]], [2,5]))                     // Output: [[1,5],[6,9]]
+//print(insertOptimised([[1,2],[3,5],[6,7],[8,10],[12,16]], [4,8])) // Output: [[1,2],[3,10],[12,16]]
+//
+//
+//// 27. 01 Matrix
+//
+//func updateMatrix(_ mat: [[Int]]) -> [[Int]] {
+//    guard !mat.isEmpty else { return [] } // Handle empty input matrix
+//    let row = mat.count
+//    let col = mat[0].count
+//    
+//    var result = Array(repeating: Array(repeating: 0, count: col), count: row)
+//    
+//    for i in 0..<row {
+//        for j in 0..<col {
+//            result[i][j] = mat[i][j] // Initialize result with values from mat
+//        }
+//    }
+//    
+//    for i in 0..<row {
+//        for j in 0..<col {
+//            if result[i][j] != 0 {
+//                result[i][j] = min(i > 0 ? result[i - 1][j] + 1 : Int.max / 2, j > 0 ? result[i][j - 1] + 1 : Int.max / 2)
+//            }
+//        }
+//    }
+//    
+//    for i in (0..<row).reversed() {
+//        for j in (0..<col).reversed() {
+//            if result[i][j] != 0 {
+//                result[i][j] = min(result[i][j], i < row - 1 ? result[i + 1][j] + 1 : Int.max / 2, j < col - 1 ? result[i][j + 1] + 1 : Int.max / 2)
+//            }
+//        }
+//    }
+//    
+//    return result
+//}
+//
+//// Example usage:
+//let mat = [[0,0,0],[0,1,0],[1,1,1]]
+//print(updateMatrix(mat))
+//
+//// 28.
+//
+//// 29. Longest Substring Without Repeating Characters
+//
+//func lengthOfLongestSubstring(_ s: String) -> Int {
+//    var map = [Character: Int]()
+//    var i = 0
+//    var j = 0
+//    var arrStr = Array(s)
+//    var mx = 0
+//    
+//    while (j < arrStr.count) {
+//        map[arrStr[j], default: 0] += 1
+//        if map.count > j - i + 1 {
+//            j += 1
+//        } else if ( map.count == j - i + 1 ) {
+//            mx = max(mx, j - i + 1)
+//            j += 1
+//        } else {
+//            while(map.count < j - i + 1) {
+//                if map.keys.contains(arrStr[i]) {
+//                    map[arrStr[i]]! -= 1
+//                    if map[arrStr[i]]! == 0 {
+//                        map.removeValue(forKey: arrStr[i])
+//                    }
+//                }
+//                i += 1
+//            }
+//            j += 1
+//        }
+//    }
+//    return mx
+//}
+//
+//let s = "abcabcbb"
+//lengthOfLongestSubstring(s)
 
-// Example usage:
-print(maxSubArray([-2,1,-3,4,-1,2,1,-5,4])) // Output: 6
-print(maxSubArray([1]))                     // Output: 1
-print(maxSubArray([5,4,-1,7,8]))            // Output: 23
 
-// 26.  Insert Interval
+// 30. 3Sum
 
-func insert(_ intervals: [[Int]], _ newInterval: [Int]) -> [[Int]] {
+func threeSum(_ nums: [Int]) -> [[Int]] {
     var result = [[Int]]()
-    var i = 0
+    let nums = nums.sorted() // Sort the array
     
-    // Add intervals that are strictly before the new interval
-    while i < intervals.count && intervals[i][1] < newInterval[0] {
-        result.append(intervals[i])
-        i += 1
-    }
-    
-    // Merge overlapping intervals with the new interval
-    var mergedInterval = newInterval
-    while i < intervals.count && intervals[i][0] <= mergedInterval[1] {
-        mergedInterval[0] = min(mergedInterval[0], intervals[i][0])
-        mergedInterval[1] = max(mergedInterval[1], intervals[i][1])
-        i += 1
-    }
-    result.append(mergedInterval)
-    
-    // Add intervals that are strictly after the new interval
-    while i < intervals.count {
-        result.append(intervals[i])
-        i += 1
-    }
-    
-    return result
-}
-
-func insertOptimised(_ intervals: [[Int]], _ newInterval: [Int]) -> [[Int]] {
-    var l = [[Int]](), r = [[Int]]()
-    var newInterval = newInterval
-    
-    for interval in intervals {
-        if interval[1] < newInterval[0] {
-            l.append(interval)
-        } else if interval[0] > newInterval[1] {
-            r.append(interval)
-        } else {
-            newInterval = [min(interval[0], newInterval[0]), max(interval[1], newInterval[1])]
+    for i in 0..<nums.count {
+        // Skip duplicates to avoid duplicate triplets
+        if i > 0 && nums[i] == nums[i - 1] {
+            continue
         }
-    }
-    return l + [newInterval] + r
-}
-
-
-// Example usage:
-print(insert([[1,3],[6,9]], [2,5]))                     // Output: [[1,5],[6,9]]
-print(insertOptimised([[1,2],[3,5],[6,7],[8,10],[12,16]], [4,8])) // Output: [[1,2],[3,10],[12,16]]
-
-
-// 27. 01 Matrix
-
-func updateMatrix(_ mat: [[Int]]) -> [[Int]] {
-    guard !mat.isEmpty else { return [] } // Handle empty input matrix
-    let row = mat.count
-    let col = mat[0].count
-    
-    var result = Array(repeating: Array(repeating: 0, count: col), count: row)
-    
-    for i in 0..<row {
-        for j in 0..<col {
-            result[i][j] = mat[i][j] // Initialize result with values from mat
-        }
-    }
-    
-    for i in 0..<row {
-        for j in 0..<col {
-            if result[i][j] != 0 {
-                result[i][j] = min(i > 0 ? result[i - 1][j] + 1 : Int.max / 2, j > 0 ? result[i][j - 1] + 1 : Int.max / 2)
-            }
-        }
-    }
-    
-    for i in (0..<row).reversed() {
-        for j in (0..<col).reversed() {
-            if result[i][j] != 0 {
-                result[i][j] = min(result[i][j], i < row - 1 ? result[i + 1][j] + 1 : Int.max / 2, j < col - 1 ? result[i][j + 1] + 1 : Int.max / 2)
+        
+        var left = i + 1
+        var right = nums.count - 1
+        
+        while left < right {
+            let sum = nums[i] + nums[left] + nums[right]
+            
+            if sum == 0 {
+                result.append([nums[i], nums[left], nums[right]])
+                // Skip duplicates
+                while left < right && nums[left] == nums[left + 1] {
+                    left += 1
+                }
+                while left < right && nums[right] == nums[right - 1] {
+                    right -= 1
+                }
+                left += 1
+                right -= 1
+            } else if sum < 0 {
+                left += 1
+            } else {
+                right -= 1
             }
         }
     }
@@ -1443,6 +1495,5 @@ func updateMatrix(_ mat: [[Int]]) -> [[Int]] {
 }
 
 // Example usage:
-let mat = [[0,0,0],[0,1,0],[1,1,1]]
-print(updateMatrix(mat))
-
+let nums = [-1,0,1,2,-1,-4] // -4, -1, -1, 0, 1, 2
+print(threeSum(nums)) // Output: [[-1,-1,2],[-1,0,1]]

@@ -979,7 +979,7 @@ public class TreeNode {
 //let root1 = TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7)))
 //print(isBalanced(root1)) // Output: true
 //
-//let root2 = TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4), TreeNode(4)), TreeNode(3)), TreeNode(2))
+let root2 = TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4), TreeNode(4)), TreeNode(3)), TreeNode(2))
 //print(isBalanced(root2)) // Output: false
 //
 //let root3: TreeNode? = nil
@@ -1462,7 +1462,7 @@ func threeSum(_ nums: [Int]) -> [[Int]] {
     
     for i in 0..<nums.count {
         // Skip duplicates to avoid duplicate triplets
-        if i > 0 && nums[i] == nums[i - 1] {
+        if i > 0, nums[i] == nums[i - 1] {
             continue
         }
         
@@ -1497,3 +1497,41 @@ func threeSum(_ nums: [Int]) -> [[Int]] {
 // Example usage:
 let nums = [-1,0,1,2,-1,-4] // -4, -1, -1, 0, 1, 2
 print(threeSum(nums)) // Output: [[-1,-1,2],[-1,0,1]]
+
+
+// 31. Binary Tree Level Order Traversal
+
+// For level order, we need to use queue
+
+func levelOrder(_ root: TreeNode?) -> [[Int]] {
+    guard let root = root else { return [] }
+    
+    var result = [[Int]]()
+    var queue = [TreeNode]()
+    queue.append(root)
+    
+    while !queue.isEmpty {
+        var levelArr = [Int]()
+        let levelSize = queue.count
+        
+        for _ in 0..<levelSize {
+            let node = queue.removeFirst()
+            levelArr.append(node.val)
+            
+            if let left = node.left {
+                queue.append(left)
+            }
+            
+            if let right = node.right {
+                queue.append(right)
+            }
+        }
+        
+        result.append(levelArr)
+    }
+    
+    return result
+}
+
+
+print(levelOrder(root2))

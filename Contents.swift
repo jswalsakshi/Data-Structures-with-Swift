@@ -4,13 +4,13 @@ let arr = [100, 80, 60, 70, 60, 75, 85]
 
 // 1. for anyday, number of stock price which are smaller including the day itself
 // next larger to left, Stack problem
-
+// to compare we are using array's num but to get the ans we have to index, becoz we cant use count for every element
 func stockSpan(arr: [Int]) -> [Int] {
-
+    
     var stack: [(Int, Int)] = [(Int, Int)]()
     var output: [Int] = [Int]()
     var result = [Int](repeating: 0, count: arr.count)
-
+    
     for i in 0..<arr.count {
         if stack.isEmpty {
             output.append(-1)
@@ -25,15 +25,15 @@ func stockSpan(arr: [Int]) -> [Int] {
             } else {
                 output.append(stack.last!.1)
             }
-
+            
         }
         stack.append((arr[i], i))
     }
-
+    
     for i in 0..<arr.count {
         result[i] = i - output[i]
     }
-
+    
     return result
 }
 
@@ -43,24 +43,24 @@ print(stockSpan(arr: arr))
 //2. valid parenthesis
 
 func isValid(_ s: String) -> Bool {
-
+    
     var stack = [Character]()
-
+    
     if s.isEmpty {
         return false
     }
-
+    
     for char in s {
         if (char == "(" || char == "{" || char == "[") {
             stack.append(char)
         } else {
-
+            
             if stack.isEmpty {
                 return false
             }
-
+            
             let top = stack.removeLast()
-
+            
             switch char {
             case ")":
                 if top != "(" {
@@ -87,20 +87,22 @@ print(isValid(s))
 
 // longest valid parenthesis
 
-let s1 = "()(()"
+// index being used here becoz, we want to get length of valid paren
+
+let s1 = "()(()))"
 
 func longestValidParentheses1(_ s: String) -> Int {
     var stack = [-1] // Initialize the stack with -1 to mark the base
-
+    
     var maxLength = 0
-
+    
     for (index, char) in s.enumerated() {
         if char == "(" {
             stack.append(index)
         } else {
             // Pop the last index from the stack
             stack.removeLast()
-
+            
             if stack.isEmpty {
                 // If the stack is empty, push the current index to mark a new base
                 stack.append(index)
@@ -110,20 +112,20 @@ func longestValidParentheses1(_ s: String) -> Int {
             }
         }
     }
-
+    
     return maxLength
 }
 
-let s11 = "()(())"
-print(longestValidParentheses1(s1)) // Output: 2
+let s11 = "()(()))"
+print(longestValidParentheses1(s1))
 
 
 
 func numIslands(_ grid: [[String]]) -> Int {
-
+    
     var grid = grid
     var numofIslands = 0
-
+    
     for row in 0..<grid.count {
         for col in 0..<grid[0].count {
             if grid[row][col] == "1" {
@@ -132,17 +134,17 @@ func numIslands(_ grid: [[String]]) -> Int {
             }
         }
     }
-
+    
     return numofIslands
-
+    
 }
 
 private func dfs(_ grid: inout [[String]], _ row: Int, _ col: Int) {
     if row < 0 || row >= grid.count || col < 0 || col >= grid[0].count { return }
-
+    
     if grid[row][col] != "1" { return }
     grid[row][col] = "0"
-
+    
     dfs(&grid, row-1, col)
     dfs(&grid, row+1, col)
     dfs(&grid, row, col+1)
@@ -160,84 +162,84 @@ print(numIslands(grid))
 
 // code priority queue
 struct PriorityQueuePractice<T: Comparable> {
-
+    
     private var heap = [T]()
-
+    
     var isEmpty: Bool {
         return heap.isEmpty
     }
-
+    
     var count: Int {
         return heap.count
     }
-
+    
     mutating func enqueue(_ element: T) {
         heap.append(element)
         heapifyUp()
     }
-
+    
     mutating func dequeue() -> T? {
         guard !isEmpty else { return nil }
-
+        
         if heap.count == 1 {
             return heap.removeLast()
         }
-
+        
         let root = heap[0]
         heap[0] = heap.removeLast()
         heapifyDown()
-
+        
         return root
     }
-
+    
     private mutating func heapifyUp() {
-
+        
     }
-
+    
     private mutating func heapifyDown() {
-
+        
     }
 }
 
 
 struct PriorityQueue<T: Comparable> {
     private var heap = [T]()
-
+    
     var isEmpty: Bool {
         return heap.isEmpty
     }
-
+    
     var count: Int {
         return heap.count
     }
-
+    
     mutating func enqueue(_ element: T) {
         heap.append(element)
         heapifyUp()
     }
-
+    
     mutating func dequeue() -> T? {
         guard !isEmpty else {
             return nil
         }
-
+        
         if heap.count == 1 {
             return heap.removeFirst()
         }
-
+        
         let root = heap[0]
         heap[0] = heap.removeLast()
         heapifyDown()
-
+        
         return root
     }
-
+    
     private mutating func heapifyUp() {
         var currentIndex = heap.count - 1
-
+        
         while currentIndex > 0 {
             let parentIndex = (currentIndex - 1) / 2
-
+            
             if heap[currentIndex] < heap[parentIndex] {
                 heap.swapAt(currentIndex, parentIndex)
                 currentIndex = parentIndex
@@ -246,28 +248,28 @@ struct PriorityQueue<T: Comparable> {
             }
         }
     }
-
+    
     private mutating func heapifyDown() {
         var currentIndex = 0
-
+        
         while true {
             let leftChildIndex = 2 * currentIndex + 1
             let rightChildIndex = 2 * currentIndex + 2
-
+            
             var minIndex = currentIndex
-
+            
             if leftChildIndex < heap.count && heap[leftChildIndex] < heap[minIndex] {
                 minIndex = leftChildIndex
             }
-
+            
             if rightChildIndex < heap.count && heap[rightChildIndex] < heap[minIndex] {
                 minIndex = rightChildIndex
             }
-
+            
             if minIndex == currentIndex {
                 break
             }
-
+            
             heap.swapAt(currentIndex, minIndex)
             currentIndex = minIndex
         }
@@ -1312,12 +1314,12 @@ let root2 = TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4), TreeNode(4)), TreeN
 //func maxSubArray(_ nums: [Int]) -> Int {
 //    var maxEndingHere = nums[0]
 //    var maxSoFar = nums[0]
-//    
+//
 //    for i in 1..<nums.count {
 //        maxEndingHere = max(nums[i], maxEndingHere + nums[i])
 //        maxSoFar = max(maxSoFar, maxEndingHere)
 //    }
-//    
+//
 //    return maxSoFar
 //}
 //
@@ -1331,13 +1333,13 @@ let root2 = TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4), TreeNode(4)), TreeN
 //func insert(_ intervals: [[Int]], _ newInterval: [Int]) -> [[Int]] {
 //    var result = [[Int]]()
 //    var i = 0
-//    
+//
 //    // Add intervals that are strictly before the new interval
 //    while i < intervals.count && intervals[i][1] < newInterval[0] {
 //        result.append(intervals[i])
 //        i += 1
 //    }
-//    
+//
 //    // Merge overlapping intervals with the new interval
 //    var mergedInterval = newInterval
 //    while i < intervals.count && intervals[i][0] <= mergedInterval[1] {
@@ -1346,20 +1348,20 @@ let root2 = TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4), TreeNode(4)), TreeN
 //        i += 1
 //    }
 //    result.append(mergedInterval)
-//    
+//
 //    // Add intervals that are strictly after the new interval
 //    while i < intervals.count {
 //        result.append(intervals[i])
 //        i += 1
 //    }
-//    
+//
 //    return result
 //}
 //
 //func insertOptimised(_ intervals: [[Int]], _ newInterval: [Int]) -> [[Int]] {
 //    var l = [[Int]](), r = [[Int]]()
 //    var newInterval = newInterval
-//    
+//
 //    for interval in intervals {
 //        if interval[1] < newInterval[0] {
 //            l.append(interval)
@@ -1384,15 +1386,15 @@ let root2 = TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4), TreeNode(4)), TreeN
 //    guard !mat.isEmpty else { return [] } // Handle empty input matrix
 //    let row = mat.count
 //    let col = mat[0].count
-//    
+//
 //    var result = Array(repeating: Array(repeating: 0, count: col), count: row)
-//    
+//
 //    for i in 0..<row {
 //        for j in 0..<col {
 //            result[i][j] = mat[i][j] // Initialize result with values from mat
 //        }
 //    }
-//    
+//
 //    for i in 0..<row {
 //        for j in 0..<col {
 //            if result[i][j] != 0 {
@@ -1400,7 +1402,7 @@ let root2 = TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4), TreeNode(4)), TreeN
 //            }
 //        }
 //    }
-//    
+//
 //    for i in (0..<row).reversed() {
 //        for j in (0..<col).reversed() {
 //            if result[i][j] != 0 {
@@ -1408,7 +1410,7 @@ let root2 = TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4), TreeNode(4)), TreeN
 //            }
 //        }
 //    }
-//    
+//
 //    return result
 //}
 //
@@ -1426,7 +1428,7 @@ let root2 = TreeNode(1, TreeNode(2, TreeNode(3, TreeNode(4), TreeNode(4)), TreeN
 //    var j = 0
 //    var arrStr = Array(s)
 //    var mx = 0
-//    
+//
 //    while (j < arrStr.count) {
 //        map[arrStr[j], default: 0] += 1
 //        if map.count > j - i + 1 {
@@ -1535,3 +1537,162 @@ func levelOrder(_ root: TreeNode?) -> [[Int]] {
 
 
 print(levelOrder(root2))
+
+
+/* Depth-First Search (DFS) and Breadth-First Search (BFS) are two fundamental graph traversal algorithms used to explore or search a graph or tree data structure. Let's define each algorithm and provide a Swift implementation for both.
+ 
+ Depth-First Search (DFS):
+ DFS explores a graph by recursively visiting each vertex and its neighbors in depth-first manner, meaning it explores as far as possible along each branch before backtracking. */
+
+// Define a graph as an adjacency list
+typealias Graph = [Int: [Int]]
+
+// Depth-First Search (DFS) implementation
+func dfs(_ graph: Graph, _ start: Int, visited: inout Set<Int>) {
+    
+    guard !visited.contains(start) else { return }
+    
+    // Mark the current node as visited
+    visited.insert(start)
+    print("Visited node: \(start)")
+    
+    // Recursively visit neighbors
+    if let neighbors = graph[start] {
+        for neighbor in neighbors {
+            dfs(graph, neighbor, visited: &visited)
+        }
+    }
+}
+
+// Example usage:
+let graph: Graph = [
+    0: [1, 2],
+    1: [3, 4],
+    2: [5],
+    3: [],
+    4: [],
+    5: []
+]
+
+var visited = Set<Int>()
+dfs(graph, 0, visited: &visited)
+
+/* Breadth-First Search (BFS):
+ BFS explores a graph by visiting all the neighbors of a vertex before moving on to the next level of vertices. */
+
+// Breadth-First Search (BFS) implementation
+func bfs(_ graph: Graph, _ start: Int) {
+    var visited = Set<Int>()
+    var queue = [start]
+    
+    while !queue.isEmpty {
+        let current = queue.removeFirst()
+        guard !visited.contains(current) else { continue }
+        
+        // Mark the current node as visited
+        visited.insert(current)
+        print("Visited node: \(current)")
+        
+        // Enqueue neighbors for exploration
+        if let neighbors = graph[current] {
+            queue.append(contentsOf: neighbors.filter { !visited.contains($0) })
+        }
+    }
+}
+
+// Example usage:
+bfs(graph, 0)
+
+// 32.
+
+//Definition for a Node.
+public class Node {
+    public var val: Int
+    public var neighbors: [Node?]
+    public init(_ val: Int) {
+        self.val = val
+        self.neighbors = []
+    }
+}
+
+func cloneGraph(_ node: Node?) -> Node? {
+    
+    guard  let node = node else {
+        return nil
+    }
+    
+    var visited = [Int: Node]()
+    
+    return clone(node: node, visited: &visited)
+    
+}
+
+private func clone(node: Node, visited: inout [Int: Node]) -> Node? {
+    if let clonedNode = visited[node.val] {
+        return clonedNode
+    }
+    
+    let clonedNode = Node(node.val)
+    visited[node.val] = clonedNode
+    
+    for neighbor in node.neighbors {
+        clonedNode.neighbors.append(clone(node: neighbor!, visited: &visited))
+    }
+    
+    return clonedNode
+}
+
+// 33.  Evaluate Reverse Polish Notation
+
+// '+', '-', '*', and '/'.
+
+func evalRPN(_ tokens: [String]) -> Int {
+    var stack = [Int]()
+    var result = 0
+    
+    for str in tokens {
+        if let strNum = Int(str) {
+            stack.append(strNum)
+        } else {
+            if stack.isEmpty {
+                return result
+            }
+            let temp1 = stack.removeLast()
+            let temp2 = stack.removeLast()
+            switch str {
+            case "+":
+                let temp = temp2 + temp1
+                stack.append(temp)
+            case "-":
+                let temp = temp2 - temp1
+                stack.append(temp)
+            case "*":
+                let temp = temp2 * temp1
+                stack.append(temp)
+            case "/":
+                let temp = temp2/temp1
+                stack.append(temp)
+             default:
+                return result
+            }
+            
+        }
+        
+    }
+    
+    return stack.last!
+}
+
+let tokens = ["4","3","-"]
+
+print(evalRPN(tokens))
+
+// 34. Course Schedule
+
+//func canFinish(_ numCourses: Int, _ prerequisites: [[Int]]) -> Bool {
+//    if prerequisites.count != numCourses - 1 {
+//        return false
+//    }
+//    
+//    
+//}

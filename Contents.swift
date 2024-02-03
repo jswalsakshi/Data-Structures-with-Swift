@@ -1696,3 +1696,51 @@ print(evalRPN(tokens))
 //    
 //    
 //}
+
+/* Q. Insects are moving on a rope. From both sides (L<->R). Bigger insect will fight and kill the other one/s.
+ Insects in the array are arranged as numbers. Such that,
+ Left insects are denoted with positive integers & right insects are with negative.
+ Both die if they are of same weight. If any insect is behind the bigger insect they will survive and will cross the rope.
+ Clarifications:
+ 1. No insect is crosing the rope no insect is crossing a bridge or anything they are moving from one place to another, these are the only things defined by the interviewer.!
+ 2. The only thing we know is insects are either moving from Left to Right or Right to Left
+ 3. Positive number is not always the biggest, there could be negative number could be a bigger insect and maybe the winner of the fight.
+ 4. Fight is the only way no insect can run backwards or anything.
+
+ Examples:
+ --> or <-- denotes the direction of the moving insect.
+
+ * Input = [5, 10, -5]
+   Output = [5,10]
+   Explanation :
+   // 5-->10--> <--(-5)
+   // because insect with weight 10 is bigger and it is moving from left to right, it will kill -5 and will move ahead.
+   // 5 is behind 10 therefore the output is [5,10]
+
+ * Input = [9, 8, 7, 6, 5, 4, 3, 2, 1]
+   Output = [9]
+   Explanation :
+   // 9-->8-->7-->6-->5-->4-->3-->2-->1-->
+   //  9 is the biggest insect whie moving it eats up all smaller insects on the way while
+   // moving from left to right.
+
+ * Input = [8, -8]
+   Output = []
+   Explanation :
+   // 8--> <--(-8)
+   // both insects die in the fight.
+
+
+ * Input = [10, 2, -5]
+   Output = [10]
+   Explanation :
+   // 10--> 2--> <--(-5)
+   // 10 is the bigger one
+
+
+
+ * Input = [10, 2, -5, -11]
+   Output = [-11]
+   Explanation :
+   // 10-->2--> <--(-5)<--(-11)
+   // (-11) is the bigger insect it will fight and kill all and move from right to left.*/

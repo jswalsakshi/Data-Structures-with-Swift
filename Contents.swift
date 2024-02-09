@@ -4,7 +4,7 @@ let arr = [100, 80, 60, 70, 60, 75, 85]
 
 // 1. for anyday, number of stock price which are smaller including the day itself
 // next larger to left, Stack problem
-// to compare we are using array's num but to get the ans we have to index, becoz we cant use count for every element
+// to compare we are using array's num but to get the ans we have to store index, becoz we cant store count for every element
 func stockSpan(arr: [Int]) -> [Int] {
     
     var stack: [(Int, Int)] = [(Int, Int)]()
@@ -120,7 +120,7 @@ let s11 = "()(()))"
 print(longestValidParentheses1(s1))
 
 
-
+// dfs
 func numIslands(_ grid: [[String]]) -> Int {
     
     var grid = grid
@@ -284,336 +284,342 @@ priorityQueue.enqueue(4)
 priorityQueue.enqueue(1)
 priorityQueue.enqueue(5)
 
-while !priorityQueue.isEmpty {
-    if let element = priorityQueue.dequeue() {
-        print(element)
-    }
-}
+print(priorityQueue)
 
-// merge sorted linkedin
+let element = priorityQueue.dequeue()
+print(element)
 
-class ListNode {
-    var val: Int
+//while !priorityQueue.isEmpty {
+//    if let element = priorityQueue.dequeue() {
+//        print(element)
+//    }
+//}
+
+// merge sorted linkedlist
+
+class ListNode<T> {
+    var val: T
     var next: ListNode?
     
-    init(_ value: Int) {
+    init(_ value: T) {
         self.val = value
         self.next = nil
     }
 }
 
-//func mergeTwoLists(_ l1: ListNode?, _ l2: ListNode?) -> ListNode? {
-//    guard let l1 = l1 else {
-//        return l2
-//    }
-//
-//    guard let l2 = l2 else {
-//        return l1
-//    }
-//
-//    if l1.val < l2.val {
-//        l1.next = mergeTwoLists(l1.next, l2)
-//        return l1
-//    } else {
-//        l2.next = mergeTwoLists(l1, l2.next)
-//        return l2
-//    }
-//}
-//
-//func findnthSeq(n: Int) -> Int {
-//    var seq = [1]
-//
-//    var nextNum = seq.last! + 1
-//    var product = seq.last! * nextNum
-//
-//    for _ in 0..<n {
-//        seq.append(product)
-//        nextNum += 1
-//        product *= nextNum
-//    }
-//
-//    return seq[n-1]
-//}
-//
-//func nthSmallestNumber(_ n: Int) -> Int {
-//    var sequence = [2]  // Initialize the sequence with the first number (2)
-//    var currentNumber = 3  // Start checking from the next number (3)
-//
-//    while sequence.count < n {
-//        var isProduct = false
-//
-//        // Check if the current number is a product of consecutive numbers
-//        for i in 2...currentNumber {
-//            if currentNumber % i == 0 && currentNumber / i == (i - 1) {
-//                isProduct = true
-//                break
-//            }
-//        }
-//
-//        // If the current number is a product, add it to the sequence
-//        if isProduct {
-//            sequence.append(currentNumber)
-//        }
-//
-//        currentNumber += 1
-//    }
-//
-//    return sequence.last!
-//}
-//
-//// Example usage:
-//let nthNumber = nthSmallestNumber(10)
-//print("The 5th smallest number in the sequence is: \(nthNumber)")
-//
-//
-//// Sliding window where ws is the ptr.count
-//// where que talks about substring and k is given
-//
-//func findAnagram(s: String, ptr: String) -> Int {
-//    var arrStr = Array(s)
-//    var mp = [Character: Int]()
-//    var count = 0
-//    var j = 0
-//    var i = 0
-//    var ans = 0
-//
-//    for ch in ptr {
-//        if mp.keys.contains(ch) {
-//            mp[ch] = mp[ch]! + 1
-//        } else {
-//            mp[ch] = 1
-//            count += 1
-//        }
-//    }
-//
-//    while j < arrStr.count {
-//        if mp.keys.contains(arrStr[j]) {
-//            mp[arrStr[j]]! -= 1
-//
-//            if mp[arrStr[j]]! == 0 {
-//                count -= 1
-//            }
-//        }
-//
-//        if j - i + 1 < ptr.count {
+func mergeTwoLists(_ l1: ListNode<Int>?, _ l2: ListNode<Int>?) -> ListNode<Int>? {
+    guard let l1 = l1 else {
+        return l2
+    }
+
+    guard let l2 = l2 else {
+        return l1
+    }
+
+    if l1.val < l2.val {
+        l1.next = mergeTwoLists(l1.next, l2)
+        return l1
+    } else {
+        l2.next = mergeTwoLists(l1, l2.next)
+        return l2
+    }
+}
+
+func findnthSeq(n: Int) -> Int {
+    var seq = [1]
+
+    var nextNum = seq.last! + 1
+    var product = seq.last! * nextNum
+
+    for _ in 0..<n {
+        seq.append(product)
+        nextNum += 1
+        product *= nextNum
+    }
+
+    return seq[n-1]
+}
+
+func nthSmallestNumber(_ n: Int) -> Int {
+    var sequence = [2]  // Initialize the sequence with the first number (2)
+    var currentNumber = 3  // Start checking from the next number (3)
+
+    while sequence.count < n {
+        var isProduct = false
+
+        // Check if the current number is a product of consecutive numbers
+        for i in 2...currentNumber {
+            if currentNumber % i == 0 && currentNumber / i == (i - 1) {
+                isProduct = true
+                break
+            }
+        }
+
+        // If the current number is a product, add it to the sequence
+        if isProduct {
+            sequence.append(currentNumber)
+        }
+
+        currentNumber += 1
+    }
+
+    return sequence.last!
+}
+
+// Example usage:
+let nthNumber = nthSmallestNumber(10)
+print("The 5th smallest number in the sequence is: \(nthNumber)")
+
+
+// Sliding window where ws is the ptr.count
+// where que talks about substring/subarry and k is given
+
+func findAnagram(s: String, ptr: String) -> Int {
+    var arrStr = Array(s)
+    var mp = [Character: Int]()
+    var count = 0
+    var j = 0
+    var i = 0
+    var ans = 0
+
+    for ch in ptr {
+        if mp.keys.contains(ch) {
+            mp[ch] = mp[ch]! + 1
+        } else {
+            mp[ch] = 1
+            count += 1
+        }
+    }
+
+    while j < arrStr.count {
+        if mp.keys.contains(arrStr[j]) {
+            mp[arrStr[j]]! -= 1
+
+            if mp[arrStr[j]]! == 0 {
+                count -= 1
+            }
+        }
+
+        if j - i + 1 < ptr.count {
 //            j += 1
-//        }
-//        else if j - i + 1 == ptr.count {
-//            if count == 0 {
-//                ans += 1
-//            }
-//
-//            if mp.keys.contains(arrStr[i]) {
-//                mp[arrStr[i]]! += 1
-//
-//                if mp[arrStr[i]]! > 0 {
-//                    count += 1
-//                }
-//            }
-//
-//            i += 1
+        }
+        else if j - i + 1 == ptr.count {
+            if count == 0 {
+                ans += 1
+            }
+
+            if mp.keys.contains(arrStr[i]) {
+                mp[arrStr[i]]! += 1
+
+                if mp[arrStr[i]]! > 0 {
+                    count += 1
+                }
+            }
+
+            i += 1
 //            j += 1
-//        }
-//    }
-//
-//    return ans
-//}
-//
-//// Example usage:
-//let result = findAnagram(s: "aabaaabaa", ptr: "aaba")
-//print(result)
-//
+        }
+        j += 1
+    }
+
+    return ans
+}
+
+// Example usage:
+let result = findAnagram(s: "aabaaabaa", ptr: "aaba")
+print(result)
+
 //// Sliding window where ws is the the map.count
 //// where que talks about substring and k is given
-//
-//func logestSubstringNoRepeatChar(s: String) -> Int {
-//
-//    var arrStr = Array(s)
-//    var i = 0
-//    var j = 0
-//    var mp = [Character: Int]()
-//    var mx = 0
-//
-//    while j < arrStr.count {
-//
-//        // calculation
-//
-//        if mp.keys.contains(arrStr[j]) {
-//            mp[arrStr[j]]! += 1
-//        } else {
-//            mp[arrStr[j]] = 1
-//        }
-//
-//        if mp.count > j-i+1 {
-//            j += 1
-//        } else if mp.count == j-i+1 {
-//            mx = max(mx, j-i+1)
-//            j += 1
-//        } else {
-//            while(mp.count < j-i+1) {
-//                if mp.keys.contains(arrStr[i]) {
-//                    mp[arrStr[i]]! -= 1
-//                    if mp[arrStr[i]]! == 0 {
-//                        mp.removeValue(forKey: arrStr[i])
-//                    }
-//                }
-//                i += 1
-//            }
-//            j += 1
-//        }
-//    }
-//    return mx
-//}
-//
-//let s2 = "pwwkew"
-//
-//logestSubstringNoRepeatChar(s: s2)
-//
-//// Shortest Path in Binary Matrix
-////BFS
-//
-//func shortestPathBinaryMatrix(_ grid: [[Int]]) -> Int {
-//    let n = grid.count
-//
-//    if grid[0][0] == 1 && grid[n-1][n-1] == 1 {
-//        return -1
-//    }
-//
-//    let moves = [(-1, 0), (0, 1), (-1, 1), (1, 1),
-//                 (0, -1), (1, 0), (1, -1), (-1, -1)]
-//
-//    var grid = grid
-//    var queue = [(0,0)]
-//    grid[0][0] = 1
-//
-//    while !queue.isEmpty {
-//        let node = queue.removeFirst()
-//        guard node != (n-1, n-1) else { return grid[n-1][n-1] }
-//
-//        for move in moves {
-//            let possibleNext = (node.0 + move.0, node.1 + move.1)
-//            guard possibleNext.0 >= 0, possibleNext.0 < n,
-//                  possibleNext.1 >= 0, possibleNext.1 < n,
-//                  grid[possibleNext.0][possibleNext.1] == 0  else { continue }
-//            queue.append(possibleNext)
-//            grid[possibleNext.0][possibleNext.1] = grid[node.0][node.1] + 1
-//        }
-//    }
-//    return -1
-//}
-//
-//let grid1 = [[0,0,0],[1,1,0],[1,1,0]]
-//print(shortestPathBinaryMatrix(grid1))
-//
-//class MinStack {
-//    var stack: [Int]
-//
-//    init() {
-//        stack = [Int]()
-//    }
-//
-//    func push(_ val: Int) {
-//        self.stack.append(val)
-//    }
-//
-//    func pop() {
-//        self.stack.removeLast()
-//    }
-//
-//    func top() -> Int {
-//        return self.stack.last!
-//    }
-//
-//    func getMin() -> Int {
-//        return self.stack.min()!
-//    }
-//
-//}
-//
-//var minStack = MinStack();
-//minStack.push(-2);
-//minStack.push(0);
-//minStack.push(-3);
-//minStack.getMin(); // return -3
-//minStack.pop();
-//minStack.top();    // return 0
-//minStack.getMin(); // return -2
-//
-//
-////class ListNode {
-////    var val: Int
-////    var next: ListNode?
-////
-////    init(_ val: Int) {
-////        self.val = val
-////        self.next = nil
-////    }
-////}
-//
-////func oddEvenList(_ head: ListNode?) -> ListNode? {
-////    guard head != nil else {
-////        return nil
-////    }
-////
-////
-////}
-//
-//func insertionSortList(_ head: ListNode?) -> ListNode? {
+
+func logestSubstringNoRepeatChar(s: String) -> Int {
+
+    var arrStr = Array(s)
+    var i = 0
+    var j = 0
+    var mp = [Character: Int]()
+    var mx = 0
+
+    while j < arrStr.count {
+
+        // calculation
+
+        if mp.keys.contains(arrStr[j]) {
+            mp[arrStr[j]]! += 1
+        } else {
+            mp[arrStr[j]] = 1
+        }
+
+        if mp.count > j-i+1 {
+            j += 1
+        } else if mp.count == j-i+1 {
+            mx = max(mx, j-i+1)
+            j += 1
+        } else {
+            while(mp.count < j-i+1) {
+                if mp.keys.contains(arrStr[i]) {
+                    mp[arrStr[i]]! -= 1
+                    if mp[arrStr[i]]! == 0 {
+                        mp.removeValue(forKey: arrStr[i])
+                    }
+                }
+                i += 1
+            }
+            j += 1
+        }
+    }
+    return mx
+}
+
+let s2 = "pwwkew"
+
+logestSubstringNoRepeatChar(s: s2)
+
+// Shortest Path in Binary Matrix
+//BFS
+
+func shortestPathBinaryMatrix(_ grid: [[Int]]) -> Int {
+    let n = grid.count
+
+    if grid[0][0] == 1 || grid[n-1][n-1] == 1 {
+        return -1
+    }
+
+    let moves = [(-1, 0), (0, 1), (-1, 1), (1, 1),
+                 (0, -1), (1, 0), (1, -1), (-1, -1)]
+
+    var grid = grid
+    var queue = [(0,0)]
+    grid[0][0] = 1
+
+    while !queue.isEmpty {
+        let node = queue.removeFirst()
+        guard node != (n-1, n-1) else { return grid[n-1][n-1] }
+
+        for move in moves {
+            let possibleNext = (node.0 + move.0, node.1 + move.1)
+            guard possibleNext.0 >= 0, possibleNext.0 < n,
+                  possibleNext.1 >= 0, possibleNext.1 < n,
+                  grid[possibleNext.0][possibleNext.1] == 0  else { continue }
+            queue.append(possibleNext)
+            grid[possibleNext.0][possibleNext.1] = grid[node.0][node.1] + 1
+        }
+    }
+    return -1
+}
+
+let grid1 = [[0,0,0],[1,1,0],[1,1,0]]
+print(shortestPathBinaryMatrix(grid1))
+
+class MinStack {
+    var stack: [Int]
+
+    init() {
+        stack = [Int]()
+    }
+
+    func push(_ val: Int) {
+        self.stack.append(val)
+    }
+
+    func pop() {
+        self.stack.removeLast()
+    }
+
+    func top() -> Int {
+        return self.stack.last!
+    }
+
+    func getMin() -> Int {
+        return self.stack.min()!
+    }
+
+}
+
+var minStack = MinStack();
+minStack.push(-2);
+minStack.push(0);
+minStack.push(-3);
+minStack.getMin(); // return -3
+minStack.pop();
+minStack.top();    // return 0
+minStack.getMin(); // return -2
+
+
+class ListNode1 {
+    var val: Int
+    var next: ListNode1?
+
+    init(_ val: Int) {
+        self.val = val
+        self.next = nil
+    }
+}
+
+//func oddEvenList(_ head: ListNode1?) -> ListNode1? {
 //    guard head != nil else {
 //        return nil
 //    }
 //
-//    let dummy = ListNode(0)
-//    var curr = head
 //
-//    while curr != nil {
-//        let next = curr?.next
-//
-//        // Find the correct position to insert
-//        var prev = dummy
-//        while prev.next != nil && prev.next!.val < curr!.val {
-//            prev = prev.next!
-//        }
-//
-//        // Insert the current node at the correct position
-//        curr?.next = prev.next
-//        prev.next = curr
-//
-//        // Move to the next node in the unsorted part of the list
-//        curr = next
-//    }
-//
-//    return dummy.next
 //}
-//
-//// Example usage:
-//let list1 = ListNode(4)
-//list1.next = ListNode(2)
-//list1.next?.next = ListNode(1)
-//list1.next?.next?.next = ListNode(3)
-//
-//let sortedList1 = insertionSortList(list1)
-//printList(sortedList1) // Output: 1 -> 2 -> 3 -> 4
-//
-//let list2 = ListNode(-1)
-//list2.next = ListNode(5)
-//list2.next?.next = ListNode(3)
-//list2.next?.next?.next = ListNode(4)
-//list2.next?.next?.next?.next = ListNode(0)
-//
-//let sortedList2 = insertionSortList(list2)
-//printList(sortedList2) // Output: -1 -> 0 -> 3 -> 4 -> 5
-//
-//// Helper function to print the linked list
-//func printList(_ head: ListNode?) {
-//    var current = head
-//    while let node = current {
-//        print("\(node.val) -> ", terminator: "")
-//        current = node.next
-//    }
-//    print("nil")
-//}
-//
+
+func insertionSortList(_ head: ListNode1?) -> ListNode1? {
+    guard head != nil else {
+        return nil
+    }
+
+    let dummy = ListNode1(0)
+    var curr = head
+
+    while curr != nil {
+        let next = curr?.next
+
+        // Find the correct position to insert
+        var prev = dummy
+        while prev.next != nil && prev.next!.val < curr!.val {
+            prev = prev.next!
+        }
+
+        // Insert the current node at the correct position
+        curr?.next = prev.next
+        prev.next = curr
+
+        // Move to the next node in the unsorted part of the list
+        curr = next
+    }
+
+    return dummy.next
+}
+
+// Example usage:
+let list1 = ListNode1(4)
+list1.next = ListNode1(2)
+list1.next?.next = ListNode1(1)
+list1.next?.next?.next = ListNode1(3)
+
+let sortedList1 = insertionSortList(list1)
+printList(sortedList1) // Output: 1 -> 2 -> 3 -> 4
+
+let list2 = ListNode1(-1)
+list2.next = ListNode1(5)
+list2.next?.next = ListNode1(3)
+list2.next?.next?.next = ListNode1(4)
+list2.next?.next?.next?.next = ListNode1(0)
+
+let sortedList2 = insertionSortList(list2)
+printList(sortedList2) // Output: -1 -> 0 -> 3 -> 4 -> 5
+
+// Helper function to print the linked list
+func printList(_ head: ListNode1?) {
+    var current = head
+    while let node = current {
+        print("\(node.val) -> ", terminator: "")
+        current = node.next
+    }
+    print("nil")
+}
+
 ////func predictTheWinner(_ nums: [Int]) -> Bool {
 ////
 ////    let n = nums.count
@@ -669,28 +675,28 @@ class ListNode {
 //// 75 Questions to practice
 //// 1. 2 Sum
 //
-//func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
-//    var toggle = false
-//    var result = [Int]()
-//
-//    if toggle == false {
-//        for i in 0..<nums.count {
-//            for j in (i+1)..<nums.count {
-//                if nums[j] == target - nums[i] {
-//                    result.append(i)
-//                    result.append(j)
-//                    toggle = true
-//                    break
-//                }
-//            }
-//        }
-//    }
-//    return result
-//}
-//
-//let nums3 = [3,2,4], target3 = 6
-//
-//print(twoSum(nums3, target3))
+func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
+    var toggle = false
+    var result = [Int]()
+
+    if toggle == false {
+        for i in 0..<nums.count {
+            for j in (i+1)..<nums.count {
+                if nums[j] == target - nums[i] {
+                    result.append(i)
+                    result.append(j)
+                    toggle = true
+                    break
+                }
+            }
+        }
+    }
+    return result
+}
+
+let nums3 = [3,2,4], target3 = 6
+
+print(twoSum(nums3, target3))
 //
 //// 2.  Valid Parentheses
 //
@@ -1689,13 +1695,70 @@ print(evalRPN(tokens))
 
 // 34. Course Schedule
 
-//func canFinish(_ numCourses: Int, _ prerequisites: [[Int]]) -> Bool {
-//    if prerequisites.count != numCourses - 1 {
-//        return false
-//    }
-//    
-//    
-//}
+func canFinish(_ numCourses: Int, _ prerequisites: [[Int]]) -> Bool {
+    // Create adjacency list representation of the graph
+    var graph = [Int: [Int]]()
+    for edge in prerequisites {
+        let course = edge[0]
+        let prerequisite = edge[1]
+        if var neighbors = graph[course] {
+            neighbors.append(prerequisite)
+            graph[course] = neighbors
+        } else {
+            graph[course] = [prerequisite]
+        }
+    }
+    
+    // Array to track visited nodes during DFS
+    var visited = Array(repeating: 0, count: numCourses)
+    
+    // Perform DFS for each course
+    for course in 0..<numCourses {
+        if !dfs(course, &graph, &visited) {
+            return false
+        }
+    }
+    
+    return true
+}
+
+func dfs(_ course: Int, _ graph: inout [Int: [Int]], _ visited: inout [Int]) -> Bool {
+    // If the course is being visited again (cycle detected), return false
+    if visited[course] == -1 {
+        return false
+    }
+    // If the course has already been visited, return true
+    if visited[course] == 1 {
+        return true
+    }
+    
+    // Mark the course as being visited
+    visited[course] = -1
+    
+    // Perform DFS for all prerequisite courses
+    if let prerequisites = graph[course] {
+        for prerequisite in prerequisites {
+            if !dfs(prerequisite, &graph, &visited) {
+                return false
+            }
+        }
+    }
+    
+    // Mark the course as visited
+    visited[course] = 1
+    
+    return true
+}
+
+// Example usage:
+let numCourses1 = 2
+let prerequisites1 = [[1, 0]]
+print(canFinish(numCourses1, prerequisites1)) // Output: true
+
+let numCourses2 = 2
+let prerequisites2 = [[1, 0], [0, 1]]
+print(canFinish(numCourses2, prerequisites2)) // Output: false
+
 
 /* Q. Insects are moving on a rope. From both sides (L<->R). Bigger insect will fight and kill the other one/s.
  Insects in the array are arranged as numbers. Such that,
@@ -1744,3 +1807,206 @@ print(evalRPN(tokens))
    Explanation :
    // 10-->2--> <--(-5)<--(-11)
    // (-11) is the bigger insect it will fight and kill all and move from right to left.*/
+
+//35. Implement Trie (Prefix Tree)
+
+class Trie {
+    
+    var trieArr = [String]()
+    
+    init() {
+    }
+    
+    func insert(_ word: String) {
+        trieArr.append(word)
+    }
+    
+    func search(_ word: String) -> Bool {
+        return trieArr.contains(word)
+    }
+    
+    func startsWith(_ prefix: String) -> Bool {
+        for word in trieArr {
+            if word.starts(with: prefix) {
+                return true
+            }
+        }
+        return false
+    }
+}
+
+// 36.  Coin Change
+
+func coinChange(_ coins: [Int], _ amount: Int) -> Int {
+    
+    if amount == 0 || coins.count == 0 {
+        return 0
+    }
+    
+    var dp = Array(repeating: amount + 1, count: amount + 1)
+    dp[0] = 0
+    
+    for i in 1...amount {
+        for coin in coins {
+            if coin <= i {
+                dp[i] = min(dp[i], dp[i - coin] + 1)
+            }
+        }
+    }
+    
+    return dp[amount] > amount ? -1 : dp[amount]
+}
+
+// Example usage:
+let coins1 = [1, 2, 5]
+let amount1 = 11
+print(coinChange(coins1, amount1)) // Output: 3
+
+let coins2 = [2]
+let amount2 = 3
+print(coinChange(coins2, amount2)) // Output: -1
+
+let coins3 = [1]
+let amount3 = 0
+print(coinChange(coins3, amount3)) // Output: 0
+
+//37. Product of Array Except Self
+
+func productExceptSelf(_ nums: [Int]) -> [Int] {
+    var result = Array(repeating: 0, count: nums.count)
+    var productForZero = 0
+    var product = nums.reduce(1) { pr, num in
+        return pr * num
+    }
+    
+    if nums.contains(0) {
+        var nums = nums
+        let ind = nums.firstIndex(of: 0)!
+        nums.remove(at: ind)
+         productForZero = nums.reduce(1) { pr, num in
+            return pr * num
+        }
+    }
+    
+    for i in 0..<nums.count {
+        if nums[i] == 0 {
+            result[i] = productForZero
+        } else {
+            result[i] = product/nums[i]
+        }
+    }
+    return result
+}
+
+let nums00 = [-1,1,0,-3,3]
+print(productExceptSelf(nums00))
+
+// 38. Validate Binary Search Tree
+func isValidBST(_ root: TreeNode?) -> Bool {
+    return isValidBSTHelper(root, Int.min, Int.max)
+}
+
+func isValidBSTHelper(_ root: TreeNode?, _ minVal: Int, _ maxVal: Int) -> Bool {
+    guard let node = root else { return true }
+    
+    if node.val <= minVal || node.val >= maxVal {
+        return false
+    }
+    
+    return isValidBSTHelper(node.left, minVal, node.val) &&
+           isValidBSTHelper(node.right, node.val, maxVal)
+}
+
+
+// 39. Number of Islands
+
+func numIslands(_ grid: [[Character]]) -> Int {
+    var grid = grid
+    var numOfIslands = 0
+    
+    for row in 0..<grid.count {
+        for col in 0..<grid[0].count {
+            if grid[row][col] == "1" {
+                dfs(&grid, row, col)
+                numOfIslands += 1            }
+        }
+    }
+    return numOfIslands
+}
+
+private func dfs(_ grid: inout [[Character]], _ row: Int, _ col: Int) {
+    if row < 0 || row > grid.count || col < 0 || col > grid[0].count { return }
+    
+    if grid[row][col] != "1" { return }
+    grid[row][col] = "0"
+    
+    dfs(&grid, row, col-1)
+    dfs(&grid, row, col+1)
+    dfs(&grid, row-1, col)
+    dfs(&grid, row+1, col)
+}
+
+let grid22 = [
+  ["1","1","1","1","0"],
+  ["1","1","0","1","0"],
+  ["1","1","0","0","0"],
+  ["0","0","0","0","0"]
+]
+
+print(numIslands(grid22))
+
+// 40. Rotting Oranges
+
+// bfs
+
+func orangesRotting(_ grid: [[Int]]) -> Int {
+    var grid = grid
+    var minutes = -1
+    
+    for row in 0..<grid.count {
+        for col in 0..<grid[0].count {
+            if grid[row][col] == 2 {
+               
+            }
+        }
+    }
+    
+    return minutes
+}
+
+
+// 41. Search in Rotated Sorted Array
+
+func search(_ nums: [Int], _ target: Int) -> Int {
+    var start = 0
+    var end = nums.count - 1
+    
+    while start <= end {
+        let mid = (start + end) / 2
+        
+        if nums[mid] == target {
+            return mid
+        }
+        
+        if nums[start] <= nums[mid] {
+            if target >= nums[start] && target < nums[mid] {
+                end = mid - 1
+            } else {
+                start = mid + 1
+            }
+        } else {
+            if target > nums[mid] && target <= nums[end] {
+                start = mid + 1
+            } else {
+                end = mid - 1
+            }
+        }
+    }
+    
+    return -1
+}
+
+let nums56 = [4,5,6,7,0,1,2]
+let target = 0
+print(search(nums56, target)) // Output: 4
+

@@ -1810,203 +1810,363 @@ print(canFinish(numCourses2, prerequisites2)) // Output: false
 
 //35. Implement Trie (Prefix Tree)
 
-class Trie {
+//class Trie {
+//    
+//    var trieArr = [String]()
+//    
+//    init() {
+//    }
+//    
+//    func insert(_ word: String) {
+//        trieArr.append(word)
+//    }
+//    
+//    func search(_ word: String) -> Bool {
+//        return trieArr.contains(word)
+//    }
+//    
+//    func startsWith(_ prefix: String) -> Bool {
+//        for word in trieArr {
+//            if word.starts(with: prefix) {
+//                return true
+//            }
+//        }
+//        return false
+//    }
+//}
+//
+//// 36.  Coin Change
+//
+//func coinChange(_ coins: [Int], _ amount: Int) -> Int {
+//    
+//    if amount == 0 || coins.count == 0 {
+//        return 0
+//    }
+//    
+//    var dp = Array(repeating: amount + 1, count: amount + 1)
+//    dp[0] = 0
+//    
+//    for i in 1...amount {
+//        for coin in coins {
+//            if coin <= i {
+//                dp[i] = min(dp[i], dp[i - coin] + 1)
+//            }
+//        }
+//    }
+//    
+//    return dp[amount] > amount ? -1 : dp[amount]
+//}
+//
+//// Example usage:
+//let coins1 = [1, 2, 5]
+//let amount1 = 11
+//print(coinChange(coins1, amount1)) // Output: 3
+//
+//let coins2 = [2]
+//let amount2 = 3
+//print(coinChange(coins2, amount2)) // Output: -1
+//
+//let coins3 = [1]
+//let amount3 = 0
+//print(coinChange(coins3, amount3)) // Output: 0
+//
+////37. Product of Array Except Self
+//
+//func productExceptSelf(_ nums: [Int]) -> [Int] {
+//    var result = Array(repeating: 0, count: nums.count)
+//    var productForZero = 0
+//    var product = nums.reduce(1) { pr, num in
+//        return pr * num
+//    }
+//    
+//    if nums.contains(0) {
+//        var nums = nums
+//        let ind = nums.firstIndex(of: 0)!
+//        nums.remove(at: ind)
+//         productForZero = nums.reduce(1) { pr, num in
+//            return pr * num
+//        }
+//    }
+//    
+//    for i in 0..<nums.count {
+//        if nums[i] == 0 {
+//            result[i] = productForZero
+//        } else {
+//            result[i] = product/nums[i]
+//        }
+//    }
+//    return result
+//}
+//
+//let nums00 = [-1,1,0,-3,3]
+//print(productExceptSelf(nums00))
+//
+//// 38. Validate Binary Search Tree
+//func isValidBST(_ root: TreeNode?) -> Bool {
+//    return isValidBSTHelper(root, Int.min, Int.max)
+//}
+//
+//func isValidBSTHelper(_ root: TreeNode?, _ minVal: Int, _ maxVal: Int) -> Bool {
+//    guard let node = root else { return true }
+//    
+//    if node.val <= minVal || node.val >= maxVal {
+//        return false
+//    }
+//    
+//    return isValidBSTHelper(node.left, minVal, node.val) &&
+//           isValidBSTHelper(node.right, node.val, maxVal)
+//}
+//
+//
+//// 39. Number of Islands
+//
+//func numIslands(_ grid: [[Character]]) -> Int {
+//    var grid = grid
+//    var numOfIslands = 0
+//    
+//    for row in 0..<grid.count {
+//        for col in 0..<grid[0].count {
+//            if grid[row][col] == "1" {
+//                dfs(&grid, row, col)
+//                numOfIslands += 1            }
+//        }
+//    }
+//    return numOfIslands
+//}
+//
+//private func dfs(_ grid: inout [[Character]], _ row: Int, _ col: Int) {
+//    if row < 0 || row > grid.count || col < 0 || col > grid[0].count { return }
+//    
+//    if grid[row][col] != "1" { return }
+//    grid[row][col] = "0"
+//    
+//    dfs(&grid, row, col-1)
+//    dfs(&grid, row, col+1)
+//    dfs(&grid, row-1, col)
+//    dfs(&grid, row+1, col)
+//}
+//
+//let grid22 = [
+//  ["1","1","1","1","0"],
+//  ["1","1","0","1","0"],
+//  ["1","1","0","0","0"],
+//  ["0","0","0","0","0"]
+//]
+//
+//print(numIslands(grid22))
+//
+//// 40. Rotting Oranges
+//
+//// bfs
+//
+//func orangesRotting(_ grid: [[Int]]) -> Int {
+//    var grid = grid
+//    var minutes = -1
+//    
+//    for row in 0..<grid.count {
+//        for col in 0..<grid[0].count {
+//            if grid[row][col] == 2 {
+//               
+//            }
+//        }
+//    }
+//    
+//    return minutes
+//}
+//
+//
+//// 41. Search in Rotated Sorted Array
+//
+//func search(_ nums: [Int], _ target: Int) -> Int {
+//    var start = 0
+//    var end = nums.count - 1
+//    
+//    while start <= end {
+//        let mid = (start + end) / 2
+//        
+//        if nums[mid] == target {
+//            return mid
+//        }
+//        
+//        if nums[start] <= nums[mid] {
+//            if target >= nums[start] && target < nums[mid] {
+//                end = mid - 1
+//            } else {
+//                start = mid + 1
+//            }
+//        } else {
+//            if target > nums[mid] && target <= nums[end] {
+//                start = mid + 1
+//            } else {
+//                end = mid - 1
+//            }
+//        }
+//    }
+//    
+//    return -1
+//}
+//
+//let nums56 = [4,5,6,7,0,1,2]
+//let target = 0
+//print(search(nums56, target)) // Output: 4
+//
+//// 42.  Find All Anagrams in a String
+//
+//// s = "cbaebabacd", p = "abc"
+//
+func findAnagrams(_ s: String, _ p: String) -> [Int] {
+    let sChars = Array(s)
+    let pChars = Array(p)
+    var result = [Int]()
+    var target = [Character: Int]()
+    var window = [Character: Int]()
     
-    var trieArr = [String]()
-    
-    init() {
+    for char in pChars {
+        target[char, default: 0] += 1
     }
     
-    func insert(_ word: String) {
-        trieArr.append(word)
-    }
+    var left = 0
+    var right = 0
     
-    func search(_ word: String) -> Bool {
-        return trieArr.contains(word)
-    }
-    
-    func startsWith(_ prefix: String) -> Bool {
-        for word in trieArr {
-            if word.starts(with: prefix) {
-                return true
+    while right < sChars.count {
+        let char = sChars[right]
+        window[char, default: 0] += 1
+        
+        if right - left + 1 == pChars.count {
+            if window == target {
+                result.append(left)
             }
-        }
-        return false
-    }
-}
-
-// 36.  Coin Change
-
-func coinChange(_ coins: [Int], _ amount: Int) -> Int {
-    
-    if amount == 0 || coins.count == 0 {
-        return 0
-    }
-    
-    var dp = Array(repeating: amount + 1, count: amount + 1)
-    dp[0] = 0
-    
-    for i in 1...amount {
-        for coin in coins {
-            if coin <= i {
-                dp[i] = min(dp[i], dp[i - coin] + 1)
+            let leftChar = sChars[left]
+            window[leftChar]! -= 1
+            if window[leftChar] == 0 {
+                window.removeValue(forKey: leftChar)
             }
+            left += 1
         }
+        
+        right += 1
     }
     
-    return dp[amount] > amount ? -1 : dp[amount]
-}
-
-// Example usage:
-let coins1 = [1, 2, 5]
-let amount1 = 11
-print(coinChange(coins1, amount1)) // Output: 3
-
-let coins2 = [2]
-let amount2 = 3
-print(coinChange(coins2, amount2)) // Output: -1
-
-let coins3 = [1]
-let amount3 = 0
-print(coinChange(coins3, amount3)) // Output: 0
-
-//37. Product of Array Except Self
-
-func productExceptSelf(_ nums: [Int]) -> [Int] {
-    var result = Array(repeating: 0, count: nums.count)
-    var productForZero = 0
-    var product = nums.reduce(1) { pr, num in
-        return pr * num
-    }
-    
-    if nums.contains(0) {
-        var nums = nums
-        let ind = nums.firstIndex(of: 0)!
-        nums.remove(at: ind)
-         productForZero = nums.reduce(1) { pr, num in
-            return pr * num
-        }
-    }
-    
-    for i in 0..<nums.count {
-        if nums[i] == 0 {
-            result[i] = productForZero
-        } else {
-            result[i] = product/nums[i]
-        }
-    }
     return result
 }
 
-let nums00 = [-1,1,0,-3,3]
-print(productExceptSelf(nums00))
+// Example usage:
+let s33 = "dinitrophenylhydrazinetrinitrophenylmethylnitramine"
+let p = "trinitrophenylmethylnitramine"
+print(findAnagrams(s33, p)) // Output: [19, 20, 21, 22]
+//
+//// Example usage:
+//let s89 = "cbaebabacd"
+//let p1 = "abc"
+//print(findAnagrams(s89, p1)) // Output: [0, 6]
+//
+//let s99 = "abab"
+//let p2 = "ab"
+//print(findAnagrams(s99, p2)) // Output: [0, 1, 2]
 
-// 38. Validate Binary Search Tree
-func isValidBST(_ root: TreeNode?) -> Bool {
-    return isValidBSTHelper(root, Int.min, Int.max)
-}
-
-func isValidBSTHelper(_ root: TreeNode?, _ minVal: Int, _ maxVal: Int) -> Bool {
-    guard let node = root else { return true }
+func findAnagramPractice(_ s: String, _ p: String) -> [Int] {
+    var sArry = Array(s)
+    var pArr = Array(p)
     
-    if node.val <= minVal || node.val >= maxVal {
-        return false
+    var i = 0
+    var j = 0
+    var mp = [Character: Int]()
+    var window = [Character: Int]()
+    var result = [Int]()
+    
+    for ch in p {
+        mp[ch, default: 0] += 1
     }
+   
     
-    return isValidBSTHelper(node.left, minVal, node.val) &&
-           isValidBSTHelper(node.right, node.val, maxVal)
-}
-
-
-// 39. Number of Islands
-
-func numIslands(_ grid: [[Character]]) -> Int {
-    var grid = grid
-    var numOfIslands = 0
-    
-    for row in 0..<grid.count {
-        for col in 0..<grid[0].count {
-            if grid[row][col] == "1" {
-                dfs(&grid, row, col)
-                numOfIslands += 1            }
-        }
-    }
-    return numOfIslands
-}
-
-private func dfs(_ grid: inout [[Character]], _ row: Int, _ col: Int) {
-    if row < 0 || row > grid.count || col < 0 || col > grid[0].count { return }
-    
-    if grid[row][col] != "1" { return }
-    grid[row][col] = "0"
-    
-    dfs(&grid, row, col-1)
-    dfs(&grid, row, col+1)
-    dfs(&grid, row-1, col)
-    dfs(&grid, row+1, col)
-}
-
-let grid22 = [
-  ["1","1","1","1","0"],
-  ["1","1","0","1","0"],
-  ["1","1","0","0","0"],
-  ["0","0","0","0","0"]
-]
-
-print(numIslands(grid22))
-
-// 40. Rotting Oranges
-
-// bfs
-
-func orangesRotting(_ grid: [[Int]]) -> Int {
-    var grid = grid
-    var minutes = -1
-    
-    for row in 0..<grid.count {
-        for col in 0..<grid[0].count {
-            if grid[row][col] == 2 {
-               
-            }
-        }
-    }
-    
-    return minutes
-}
-
-
-// 41. Search in Rotated Sorted Array
-
-func search(_ nums: [Int], _ target: Int) -> Int {
-    var start = 0
-    var end = nums.count - 1
-    
-    while start <= end {
-        let mid = (start + end) / 2
-        
-        if nums[mid] == target {
-            return mid
+    while j < sArry.count {
+        if mp.keys.contains(sArry[j]) {
+            window[sArry[j], default: 0] += 1
         }
         
-        if nums[start] <= nums[mid] {
-            if target >= nums[start] && target < nums[mid] {
-                end = mid - 1
-            } else {
-                start = mid + 1
+        if j-i+1 == pArr.count {
+            if window.count == mp.count {
+                result.append(i)
             }
         } else {
-            if target > nums[mid] && target <= nums[end] {
-                start = mid + 1
-            } else {
-                end = mid - 1
+            while j-i+1 > pArr.count {
+                if window.keys.contains(sArry[i]) {
+                    window[sArry[i]]! -= 1
+                    
+                    if window[sArry[i]]! == 0 {
+                        window.removeValue(forKey: sArry[i])
+                    }
+                }
+                i += 1
+            }
+        }
+        j += 1
+    }
+    
+    return result
+}
+
+let s77 = "abcabc"
+let p77 = "abc"
+
+print(findAnagramPractice(s77, p77))
+
+func wordBreak(_ s: String, _ wordDict: [String]) -> Bool {
+    var dp = Array(repeating: false, count: s.count + 1)
+    dp[0] = true
+    var arrS = Array(s)
+    
+    let wordSet = Set(wordDict)
+    
+    for end in 1...arrS.count {
+        for start in 0..<end {
+            let substring = arrS[start..<end]
+            if dp[start] && wordSet.contains(String(substring)) {
+                dp[end] = true
+                break
             }
         }
     }
     
-    return -1
+    return dp[s.count]
 }
 
-let nums56 = [4,5,6,7,0,1,2]
-let target = 0
-print(search(nums56, target)) // Output: 4
+// Example usage:
+let s16 = "leetcode"
+let wordDict1 = ["leet", "code"]
+print(wordBreak(s16, wordDict1)) // Output: true
 
+let s26 = "applepenapple"
+let wordDict2 = ["apple", "pen"]
+print(wordBreak(s26, wordDict2)) // Output: true
+
+let s3 = "catsandog"
+let wordDict3 = ["cats", "dog", "sand", "and", "cat"]
+print(wordBreak(s3, wordDict3)) // Output: false
+
+
+// optimised way
+class Solution {
+    var memo = [String: Bool]()
+    
+    func wordBreak(_ s: String, _ wordDict: [String]) -> Bool {
+        if s.isEmpty { return true }
+        
+        if let result = memo[s] {
+            return result
+        }
+        for word in wordDict {
+            if s.hasPrefix(word) {
+                let next = String(s.dropFirst(word.count))
+                if wordBreak(next, wordDict) {
+                    memo[s] = true
+                    return true
+                }
+            }
+        }
+        
+        memo[s] = false
+        
+        return false
+    }
+}

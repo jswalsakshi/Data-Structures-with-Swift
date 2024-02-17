@@ -2111,6 +2111,8 @@ let p77 = "abc"
 
 print(findAnagramPractice(s77, p77))
 
+// 43. word break
+
 func wordBreak(_ s: String, _ wordDict: [String]) -> Bool {
     var dp = Array(repeating: false, count: s.count + 1)
     dp[0] = true
@@ -2170,3 +2172,51 @@ class Solution {
         return false
     }
 }
+
+
+// 44. Combination Sum
+
+// clearly DP
+
+func combinationSum(_ candidates: [Int], _ target: Int) -> [[Int]] {
+    var result: [[Int]] = []
+    var combination: [Int] = []
+    
+    // Sort the candidates to handle duplicates and for easier pruning
+    let sortedCandidates = candidates.sorted()
+    
+    // Define a recursive backtracking function
+    func backtrack(_ remain: Int, _ startIndex: Int) {
+        // Base case: If remain becomes 0, we found a valid combination
+        if remain == 0 {
+            result.append(combination)
+            return
+        }
+        
+        // Iterate through the sorted candidates
+        for i in startIndex..<sortedCandidates.count {
+            let candidate = sortedCandidates[i]
+            // If the current candidate is larger than the remaining sum, prune this branch
+            if candidate > remain {
+                break
+            }
+            // Add the current candidate to the combination
+            combination.append(candidate)
+            // Recur with the remaining sum and the same start index to allow duplicate combinations
+            backtrack(remain - candidate, i)
+            // Backtrack: remove the last added element to explore other combinations
+            combination.removeLast()
+        }
+    }
+    
+    // Start the backtracking process
+    backtrack(target, 0)
+    
+    return result
+}
+
+// Test cases
+print(combinationSum([2,3,6,7], 7)) // Output: [[2, 2, 3], [7]]
+print(combinationSum([2,3,5], 8))   // Output: [[2, 2, 2, 2], [2, 3, 3], [5]]
+print(combinationSum([2], 1))       // Output: []
+

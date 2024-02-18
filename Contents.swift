@@ -2220,3 +2220,28 @@ print(combinationSum([2,3,6,7], 7)) // Output: [[2, 2, 3], [7]]
 print(combinationSum([2,3,5], 8))   // Output: [[2, 2, 2, 2], [2, 3, 3], [5]]
 print(combinationSum([2], 1))       // Output: []
 
+// 45. Permutations
+
+func permute(_ nums: [Int]) -> [[Int]] {
+    var permutations = [[Int]]()
+    var visited: Set<Int> = []
+    
+    func backtrack(_ current: [Int]) {
+        if current.count == nums.count {
+            permutations.append(current)
+            return
+        }
+        for num in nums {
+            if !visited.contains(num) {
+                visited.insert(num)
+                backtrack(current + [num])
+                visited.remove(num)
+            }
+        }
+    }
+    backtrack([])
+    return permutations
+}
+
+let nums88 = [1,2,3]
+print(permute(nums88))

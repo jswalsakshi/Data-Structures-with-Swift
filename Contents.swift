@@ -2245,3 +2245,36 @@ func permute(_ nums: [Int]) -> [[Int]] {
 
 let nums88 = [1,2,3]
 print(permute(nums88))
+
+// 46. Merge Intervals
+
+func merge(_ intervals: [[Int]]) -> [[Int]] {
+    guard intervals.count > 1 else { return intervals }
+    
+    var sortedIntervals = intervals.sorted { $0[0] < $1[0] }
+    var mergedIntervals = [[Int]]()
+    mergedIntervals.append(sortedIntervals[0])
+    
+    for i in 1..<sortedIntervals.count {
+        let currentInterval = sortedIntervals[i]
+        var lastMergedInterval = mergedIntervals.last!
+        
+        if currentInterval[0] <= lastMergedInterval[1] {
+            lastMergedInterval[1] = max(lastMergedInterval[1], currentInterval[1])
+            mergedIntervals[mergedIntervals.count - 1] = lastMergedInterval
+        } else {
+            mergedIntervals.append(currentInterval)
+        }
+    }
+    
+    return mergedIntervals
+}
+
+// Test cases
+let intervals1 = [[1,3],[2,6],[8,10],[15,18]]
+print(merge(intervals1)) // Output: [[1,6],[8,10],[15,18]]
+
+let intervals2 = [[1,4],[4,5]]
+print(merge(intervals2)) // Output: [[1,5]]
+
+

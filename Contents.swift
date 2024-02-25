@@ -2277,4 +2277,35 @@ print(merge(intervals1)) // Output: [[1,6],[8,10],[15,18]]
 let intervals2 = [[1,4],[4,5]]
 print(merge(intervals2)) // Output: [[1,5]]
 
+// 47. Lowest Common Ancestor of a Binary Tree
 
+func lowestCommonAncestor(_ root: TreeNode?, _ p: TreeNode?, _ q: TreeNode?) -> TreeNode? {
+    // Base case: if root is nil or root matches either p or q, return root
+    guard let root = root else { return nil }
+    if root === p || root === q { return root }
+    
+    // Recursively search left and right subtrees for p and q
+    let left = lowestCommonAncestor(root.left, p, q)
+    let right = lowestCommonAncestor(root.right, p, q)
+    
+    // If both left and right subtrees return non-nil values, root is the LCA
+    if left != nil && right != nil { return root }
+    
+    // Otherwise, return the non-nil subtree result
+    return left != nil ? left : right
+}
+
+let root = TreeNode(3)
+root.left = TreeNode(5)
+root.right = TreeNode(1)
+root.left?.left = TreeNode(6)
+root.left?.right = TreeNode(2)
+root.right?.left = TreeNode(0)
+root.right?.right = TreeNode(8)
+root.left?.right?.left = TreeNode(7)
+root.left?.right?.right = TreeNode(4)
+
+let p11 = root.left
+let q = root.right
+let lca = lowestCommonAncestor(root, p11, q)
+print(lca?.val)

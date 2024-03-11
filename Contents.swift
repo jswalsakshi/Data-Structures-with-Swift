@@ -311,11 +311,11 @@ func mergeTwoLists(_ l1: ListNode<Int>?, _ l2: ListNode<Int>?) -> ListNode<Int>?
     guard let l1 = l1 else {
         return l2
     }
-
+    
     guard let l2 = l2 else {
         return l1
     }
-
+    
     if l1.val < l2.val {
         l1.next = mergeTwoLists(l1.next, l2)
         return l1
@@ -327,26 +327,26 @@ func mergeTwoLists(_ l1: ListNode<Int>?, _ l2: ListNode<Int>?) -> ListNode<Int>?
 
 func findnthSeq(n: Int) -> Int {
     var seq = [1]
-
+    
     var nextNum = seq.last! + 1
     var product = seq.last! * nextNum
-
+    
     for _ in 0..<n {
         seq.append(product)
         nextNum += 1
         product *= nextNum
     }
-
+    
     return seq[n-1]
 }
 
 func nthSmallestNumber(_ n: Int) -> Int {
     var sequence = [2]  // Initialize the sequence with the first number (2)
     var currentNumber = 3  // Start checking from the next number (3)
-
+    
     while sequence.count < n {
         var isProduct = false
-
+        
         // Check if the current number is a product of consecutive numbers
         for i in 2...currentNumber {
             if currentNumber % i == 0 && currentNumber / i == (i - 1) {
@@ -354,15 +354,15 @@ func nthSmallestNumber(_ n: Int) -> Int {
                 break
             }
         }
-
+        
         // If the current number is a product, add it to the sequence
         if isProduct {
             sequence.append(currentNumber)
         }
-
+        
         currentNumber += 1
     }
-
+    
     return sequence.last!
 }
 
@@ -381,7 +381,7 @@ func findAnagram(s: String, ptr: String) -> Int {
     var j = 0
     var i = 0
     var ans = 0
-
+    
     for ch in ptr {
         if mp.keys.contains(ch) {
             mp[ch] = mp[ch]! + 1
@@ -390,38 +390,38 @@ func findAnagram(s: String, ptr: String) -> Int {
             count += 1
         }
     }
-
+    
     while j < arrStr.count {
         if mp.keys.contains(arrStr[j]) {
             mp[arrStr[j]]! -= 1
-
+            
             if mp[arrStr[j]]! == 0 {
                 count -= 1
             }
         }
-
+        
         if j - i + 1 < ptr.count {
-//            j += 1
+            //            j += 1
         }
         else if j - i + 1 == ptr.count {
             if count == 0 {
                 ans += 1
             }
-
+            
             if mp.keys.contains(arrStr[i]) {
                 mp[arrStr[i]]! += 1
-
+                
                 if mp[arrStr[i]]! > 0 {
                     count += 1
                 }
             }
-
+            
             i += 1
-//            j += 1
+            //            j += 1
         }
         j += 1
     }
-
+    
     return ans
 }
 
@@ -433,23 +433,23 @@ print(result)
 //// where que talks about substring and k is given
 
 func logestSubstringNoRepeatChar(s: String) -> Int {
-
+    
     var arrStr = Array(s)
     var i = 0
     var j = 0
     var mp = [Character: Int]()
     var mx = 0
-
+    
     while j < arrStr.count {
-
+        
         // calculation
-
+        
         if mp.keys.contains(arrStr[j]) {
             mp[arrStr[j]]! += 1
         } else {
             mp[arrStr[j]] = 1
         }
-
+        
         if mp.count > j-i+1 {
             j += 1
         } else if mp.count == j-i+1 {
@@ -480,22 +480,22 @@ logestSubstringNoRepeatChar(s: s2)
 
 func shortestPathBinaryMatrix(_ grid: [[Int]]) -> Int {
     let n = grid.count
-
+    
     if grid[0][0] == 1 || grid[n-1][n-1] == 1 {
         return -1
     }
-
+    
     let moves = [(-1, 0), (0, 1), (-1, 1), (1, 1),
                  (0, -1), (1, 0), (1, -1), (-1, -1)]
-
+    
     var grid = grid
     var queue = [(0,0)]
     grid[0][0] = 1
-
+    
     while !queue.isEmpty {
         let node = queue.removeFirst()
         guard node != (n-1, n-1) else { return grid[n-1][n-1] }
-
+        
         for move in moves {
             let possibleNext = (node.0 + move.0, node.1 + move.1)
             guard possibleNext.0 >= 0, possibleNext.0 < n,
@@ -513,27 +513,27 @@ print(shortestPathBinaryMatrix(grid1))
 
 class MinStack {
     var stack: [Int]
-
+    
     init() {
         stack = [Int]()
     }
-
+    
     func push(_ val: Int) {
         self.stack.append(val)
     }
-
+    
     func pop() {
         self.stack.removeLast()
     }
-
+    
     func top() -> Int {
         return self.stack.last!
     }
-
+    
     func getMin() -> Int {
         return self.stack.min()!
     }
-
+    
 }
 
 var minStack = MinStack();
@@ -549,7 +549,7 @@ minStack.getMin(); // return -2
 class ListNode1 {
     var val: Int
     var next: ListNode1?
-
+    
     init(_ val: Int) {
         self.val = val
         self.next = nil
@@ -568,27 +568,27 @@ func insertionSortList(_ head: ListNode1?) -> ListNode1? {
     guard head != nil else {
         return nil
     }
-
+    
     let dummy = ListNode1(0)
     var curr = head
-
+    
     while curr != nil {
         let next = curr?.next
-
+        
         // Find the correct position to insert
         var prev = dummy
         while prev.next != nil && prev.next!.val < curr!.val {
             prev = prev.next!
         }
-
+        
         // Insert the current node at the correct position
         curr?.next = prev.next
         prev.next = curr
-
+        
         // Move to the next node in the unsorted part of the list
         curr = next
     }
-
+    
     return dummy.next
 }
 
@@ -678,7 +678,7 @@ func printList(_ head: ListNode1?) {
 func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
     var toggle = false
     var result = [Int]()
-
+    
     if toggle == false {
         for i in 0..<nums.count {
             for j in (i+1)..<nums.count {
@@ -1678,7 +1678,7 @@ func evalRPN(_ tokens: [String]) -> Int {
             case "/":
                 let temp = temp2/temp1
                 stack.append(temp)
-             default:
+            default:
                 return result
             }
             
@@ -1769,62 +1769,62 @@ print(canFinish(numCourses2, prerequisites2)) // Output: false
  2. The only thing we know is insects are either moving from Left to Right or Right to Left
  3. Positive number is not always the biggest, there could be negative number could be a bigger insect and maybe the winner of the fight.
  4. Fight is the only way no insect can run backwards or anything.
-
+ 
  Examples:
  --> or <-- denotes the direction of the moving insect.
-
+ 
  * Input = [5, 10, -5]
-   Output = [5,10]
-   Explanation :
-   // 5-->10--> <--(-5)
-   // because insect with weight 10 is bigger and it is moving from left to right, it will kill -5 and will move ahead.
-   // 5 is behind 10 therefore the output is [5,10]
-
+ Output = [5,10]
+ Explanation :
+ // 5-->10--> <--(-5)
+ // because insect with weight 10 is bigger and it is moving from left to right, it will kill -5 and will move ahead.
+ // 5 is behind 10 therefore the output is [5,10]
+ 
  * Input = [9, 8, 7, 6, 5, 4, 3, 2, 1]
-   Output = [9]
-   Explanation :
-   // 9-->8-->7-->6-->5-->4-->3-->2-->1-->
-   //  9 is the biggest insect whie moving it eats up all smaller insects on the way while
-   // moving from left to right.
-
+ Output = [9]
+ Explanation :
+ // 9-->8-->7-->6-->5-->4-->3-->2-->1-->
+ //  9 is the biggest insect whie moving it eats up all smaller insects on the way while
+ // moving from left to right.
+ 
  * Input = [8, -8]
-   Output = []
-   Explanation :
-   // 8--> <--(-8)
-   // both insects die in the fight.
-
-
+ Output = []
+ Explanation :
+ // 8--> <--(-8)
+ // both insects die in the fight.
+ 
+ 
  * Input = [10, 2, -5]
-   Output = [10]
-   Explanation :
-   // 10--> 2--> <--(-5)
-   // 10 is the bigger one
-
-
-
+ Output = [10]
+ Explanation :
+ // 10--> 2--> <--(-5)
+ // 10 is the bigger one
+ 
+ 
+ 
  * Input = [10, 2, -5, -11]
-   Output = [-11]
-   Explanation :
-   // 10-->2--> <--(-5)<--(-11)
-   // (-11) is the bigger insect it will fight and kill all and move from right to left.*/
+ Output = [-11]
+ Explanation :
+ // 10-->2--> <--(-5)<--(-11)
+ // (-11) is the bigger insect it will fight and kill all and move from right to left.*/
 
 //35. Implement Trie (Prefix Tree)
 
 //class Trie {
-//    
+//
 //    var trieArr = [String]()
-//    
+//
 //    init() {
 //    }
-//    
+//
 //    func insert(_ word: String) {
 //        trieArr.append(word)
 //    }
-//    
+//
 //    func search(_ word: String) -> Bool {
 //        return trieArr.contains(word)
 //    }
-//    
+//
 //    func startsWith(_ prefix: String) -> Bool {
 //        for word in trieArr {
 //            if word.starts(with: prefix) {
@@ -1838,14 +1838,14 @@ print(canFinish(numCourses2, prerequisites2)) // Output: false
 //// 36.  Coin Change
 //
 //func coinChange(_ coins: [Int], _ amount: Int) -> Int {
-//    
+//
 //    if amount == 0 || coins.count == 0 {
 //        return 0
 //    }
-//    
+//
 //    var dp = Array(repeating: amount + 1, count: amount + 1)
 //    dp[0] = 0
-//    
+//
 //    for i in 1...amount {
 //        for coin in coins {
 //            if coin <= i {
@@ -1853,7 +1853,7 @@ print(canFinish(numCourses2, prerequisites2)) // Output: false
 //            }
 //        }
 //    }
-//    
+//
 //    return dp[amount] > amount ? -1 : dp[amount]
 //}
 //
@@ -1878,7 +1878,7 @@ print(canFinish(numCourses2, prerequisites2)) // Output: false
 //    var product = nums.reduce(1) { pr, num in
 //        return pr * num
 //    }
-//    
+//
 //    if nums.contains(0) {
 //        var nums = nums
 //        let ind = nums.firstIndex(of: 0)!
@@ -1887,7 +1887,7 @@ print(canFinish(numCourses2, prerequisites2)) // Output: false
 //            return pr * num
 //        }
 //    }
-//    
+//
 //    for i in 0..<nums.count {
 //        if nums[i] == 0 {
 //            result[i] = productForZero
@@ -1908,11 +1908,11 @@ print(canFinish(numCourses2, prerequisites2)) // Output: false
 //
 //func isValidBSTHelper(_ root: TreeNode?, _ minVal: Int, _ maxVal: Int) -> Bool {
 //    guard let node = root else { return true }
-//    
+//
 //    if node.val <= minVal || node.val >= maxVal {
 //        return false
 //    }
-//    
+//
 //    return isValidBSTHelper(node.left, minVal, node.val) &&
 //           isValidBSTHelper(node.right, node.val, maxVal)
 //}
@@ -1923,7 +1923,7 @@ print(canFinish(numCourses2, prerequisites2)) // Output: false
 //func numIslands(_ grid: [[Character]]) -> Int {
 //    var grid = grid
 //    var numOfIslands = 0
-//    
+//
 //    for row in 0..<grid.count {
 //        for col in 0..<grid[0].count {
 //            if grid[row][col] == "1" {
@@ -1936,10 +1936,10 @@ print(canFinish(numCourses2, prerequisites2)) // Output: false
 //
 //private func dfs(_ grid: inout [[Character]], _ row: Int, _ col: Int) {
 //    if row < 0 || row > grid.count || col < 0 || col > grid[0].count { return }
-//    
+//
 //    if grid[row][col] != "1" { return }
 //    grid[row][col] = "0"
-//    
+//
 //    dfs(&grid, row, col-1)
 //    dfs(&grid, row, col+1)
 //    dfs(&grid, row-1, col)
@@ -1962,15 +1962,15 @@ print(canFinish(numCourses2, prerequisites2)) // Output: false
 //func orangesRotting(_ grid: [[Int]]) -> Int {
 //    var grid = grid
 //    var minutes = -1
-//    
+//
 //    for row in 0..<grid.count {
 //        for col in 0..<grid[0].count {
 //            if grid[row][col] == 2 {
-//               
+//
 //            }
 //        }
 //    }
-//    
+//
 //    return minutes
 //}
 //
@@ -1980,14 +1980,14 @@ print(canFinish(numCourses2, prerequisites2)) // Output: false
 //func search(_ nums: [Int], _ target: Int) -> Int {
 //    var start = 0
 //    var end = nums.count - 1
-//    
+//
 //    while start <= end {
 //        let mid = (start + end) / 2
-//        
+//
 //        if nums[mid] == target {
 //            return mid
 //        }
-//        
+//
 //        if nums[start] <= nums[mid] {
 //            if target >= nums[start] && target < nums[mid] {
 //                end = mid - 1
@@ -2002,7 +2002,7 @@ print(canFinish(numCourses2, prerequisites2)) // Output: false
 //            }
 //        }
 //    }
-//    
+//
 //    return -1
 //}
 //
@@ -2077,7 +2077,7 @@ func findAnagramPractice(_ s: String, _ p: String) -> [Int] {
     for ch in p {
         mp[ch, default: 0] += 1
     }
-   
+    
     
     while j < sArry.count {
         if mp.keys.contains(sArry[j]) {
@@ -2309,3 +2309,76 @@ let p11 = root.left
 let q = root.right
 let lca = lowestCommonAncestor(root, p11, q)
 print(lca?.val)
+
+
+class TimeMap {
+    var storage: [String: [(Int, String)]]
+    
+    /** Initialize your data structure here. */
+    init() {
+        storage = [:]
+    }
+    
+    func set(_ key: String, _ value: String, _ timestamp: Int) {
+        if storage[key] == nil {
+            storage[key] = []
+        }
+        storage[key]?.append((timestamp, value))
+    }
+    
+    func get(_ key: String, _ timestamp: Int) -> String {
+        guard let values = storage[key] else { return "" }
+        
+        var left = 0
+        var right = values.count - 1
+        while left <= right {
+            let mid = left + (right - left) / 2
+            if values[mid].0 <= timestamp {
+                left = mid + 1
+            } else {
+                right = mid - 1
+            }
+        }
+        
+        if right >= 0 {
+            return values[right].1
+        } else {
+            return ""
+        }
+    }
+}
+
+// Example usage:
+let timeMap = TimeMap()
+timeMap.set("foo", "bar", 1)
+print(timeMap.get("foo", 1)) // Output: "bar"
+print(timeMap.get("foo", 3)) // Output: "bar"
+timeMap.set("foo", "bar2", 4)
+print(timeMap.get("foo", 4)) // Output: "bar2"
+print(timeMap.get("foo", 5)) // Output: "bar2"
+
+// 48. Partition Equal Subset Sum
+
+func canPartition(_ nums: [Int]) -> Bool {
+    
+    let sum = nums.reduce(0, +)
+    
+    if sum % 2 != 0 {
+        return false
+    }
+    
+    let targetSum = sum/2
+    
+    var dp = Array(repeating: false, count: targetSum + 1)
+    
+    dp[0] = true
+    
+    for num in nums {
+        for j in stride(from: targetSum, through: num, by: -1) {
+            dp[j] = dp[j] || dp[j - num]
+        }
+    }
+    return dp[targetSum]
+}
+
+print(canPartition([1,5,11,5])) 

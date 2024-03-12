@@ -2381,4 +2381,51 @@ func canPartition(_ nums: [Int]) -> Bool {
     return dp[targetSum]
 }
 
-print(canPartition([1,5,11,5])) 
+print(canPartition([1,5,11,5]))
+
+// 49. String to integer
+
+func myAtoi(_ s: String) -> Int {
+    
+    var i = 0
+    let n = s.count
+    var sign = 1
+    var result = 0
+    
+    // ignore leading white space
+    
+    while i < n && s[i] == " " {
+        i += 1
+    }
+    
+    // check sign
+    
+    if i < n && (s[i] == "+" || s[i] == "-") {
+        sign = s[i] == "+" ? 1 : -1
+        i += 1
+    }
+    
+    // convert digit to int
+    
+    while i < n && s[i].isNumber {
+        let digit = Int(String(s[i]))!
+        
+        if result > Int32.max / 10 || (result == Int32.max / 10 && digit > 7) {
+            return sign == 1 ? Int(Int32.max) : Int(Int32.min)
+        }
+        
+        result = result * 10 + digit
+        i += 1
+    }
+    
+    return result * sign
+    
+}
+
+print(myAtoi("-91283472332"))
+
+extension String {
+    subscript(_ index: Int) -> Character {
+        return self[self.index(self.startIndex, offsetBy: index)]
+    }
+}
